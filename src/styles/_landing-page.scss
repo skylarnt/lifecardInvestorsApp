@@ -1,0 +1,60 @@
+.contain {
+    padding: 0 100px;
+}
+@media (max-width: 767px) {
+    .contain {
+        padding: 0 10px !important;
+    }
+}
+@media (max-width: 1023px) {
+    .contain {
+        padding: 0 40px !important;
+    }
+}
+.scroll-area {
+    overflow-x: hidden;
+    height: 400px;
+}
+
+.scroll-area-xs {
+    height: 135px;
+    overflow-x: hidden;
+}
+
+.scroll-area-sm {
+    height: 200px;
+    overflow-x: hidden;
+}
+
+.scroll-area-md {
+    height: 300px;
+    overflow-x: hidden;
+}
+
+.scroll-area-lg {
+    height: 400px;
+    overflow-x: hidden;
+}
+.scroll-area-xl {
+    height: 520px;
+    overflow-x: hidden;
+}
+/* width */
+::-webkit-scrollbar {
+    width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: rgb(150, 150, 150); 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: rgb(172, 172, 172); 
+}
