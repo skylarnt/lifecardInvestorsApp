@@ -1,5 +1,5 @@
 <template>
-  <div>
+   <div>
     <form action="" @submit.prevent="reply">
             <VueElementLoading
             :active="loading"
@@ -12,11 +12,12 @@
             <!-- <v-card-title>
                 <span class="text-h5">Create Property</span>
             </v-card-title> -->
+            <p><button type="button" @click="fetchData()" class="btn text-info">Refresh</button></p>
             <v-card-text class="_body p-0">
                 <div class="convo">
                     
-                    <div v-if="data.request_conversation.length">
-                        <div class="bubbleWrapper" v-for="(m) in data.request_conversation" :key="m.id">
+                    <div v-if="request_conversation.length">
+                        <div class="bubbleWrapper" v-for="(m) in request_conversation" :key="m.id">
                             <div class="inlineContainer" :class="{
                                 'own': m.convo_1 !=null,
                             }">
@@ -27,7 +28,7 @@
                                 'otherBubble': m.convo_2 !=null,
     
                             }">
-                                    {{ m.convo_1 != null ? m.convo_1 : m.convo_2}}
+                                    {{ m.convo_1 != null ? m.convo_1 : m.convo_1}}
                                 </div>
                             </div><span :class="{
                                 'own': m.convo_1 !=null,
@@ -99,19 +100,27 @@ export default {
             form:{},
             loading:false,
             error_messg:{},
+            request_conversation:[],
+
         }
     },
     mounted() {
-        setTimeout(() => {
-            var elem = document.querySelector('.convo');
+        this.scrollDiv()
 
-            elem.scrollTop = Number(elem.scrollHeight);
-        }, 1000);
+        this.fetchData()
+
 
     },
     methods:{
         closeMe() {
-            this.$bvModal.hide('create')
+            this.$bvModal.hide('conversation')
+        },
+        scrollDiv() {
+            var elem = document.querySelector('.convo');
+            setTimeout(() => {
+                elem.scrollTop = Number(elem.scrollHeight);
+                
+            }, 1000);
         },
         reply() {
             this.$api.post(this.dynamic_route('/requests/reply_message'), {
@@ -121,12 +130,31 @@ export default {
                 this.loading=false;
                 this.form={}
                 if(res.status == 200) {
-                    this.data.request_conversation.push(res.data.data);
+                    this.request_conversation.push(res.data.data);
                     var elem = document.querySelector('.convo');
                     setTimeout(() => {
                         elem.scrollTop = Number(elem.scrollHeight);
                         
                     }, 1000);
+                    
+                } else {
+                    if(res.status==422 && res.data.message =="The given data was invalid.") this.error_messg=res.data.errors
+                }
+                this.toast(res)
+
+
+            });
+        },
+        fetchData() {
+            this.$api.post(this.dynamic_route('/requests/get_user_conversations'), {
+                message: this.form.message,
+                request_id: this.data.id,
+            }).then((res) => {
+                this.loading=false;
+                this.form={}
+                if(res.status == 200) {
+                    this.request_conversation.push(res.data.data);
+                    this.scrollDiv()
                     
                 } else {
                     if(res.status==422 && res.data.message =="The given data was invalid.") this.error_messg=res.data.errors
