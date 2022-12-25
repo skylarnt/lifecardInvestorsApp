@@ -72,7 +72,7 @@
 
        </b-row>
        <p class="text-right">
-          Want to make a request ? 
+          Want to make a special request ? 
             <button class="btn text-info" @click="run()" >
               Yes
             </button>

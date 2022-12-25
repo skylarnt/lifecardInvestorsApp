@@ -9,6 +9,17 @@
             duration="0.6"
           />
           
+          <p>
+                <span
+                class="badge"
+                :class="{
+                        
+                    'badge-info' : data.is_special == 'yes',
+                    }"
+                >
+                    Special request
+                </span>
+            </p>
             <!-- <v-card-title>
                 <span class="text-h5">Create Property</span>
             </v-card-title> -->
@@ -158,8 +169,8 @@ export default {
                     
                 } else {
                     if(res.status==422 && res.data.message =="The given data was invalid.") this.error_messg=res.data.errors
+                    this.toast(res)
                 }
-                this.toast(res)
 
 
             });

@@ -6,14 +6,14 @@
                 title=""
                 customHeader
                 >
-                    <h5 class="d-inline-block">Manage  <span class='fw-semi-bold'>Requests</span></h5>
+                    <h5 class="d-inline-block">Manage  All <span class='fw-semi-bold'>Requests</span></h5>
                     <v-btn
                         depressed
                         color="primary"
                         class="float-right"
                         @click="$bvModal.show('create')"
                     >
-                        <i class="mdi mdi-plus-circle"></i> New 
+                        <i class="mdi mdi-plus-circle"></i> Special Request
                     </v-btn>
                     <VueElementLoading
                         :active="loading"
@@ -52,6 +52,17 @@
                                 <td>{{ i + 1 }}</td>
                                     <td >
                                         {{ p.name }}
+                                        <p>
+                                            <span
+                                            class="badge"
+                                            :class="{
+                                                
+                                            'badge-info' : p.is_special == 'yes',
+                                            }"
+                                        >
+                                          Special request
+                                        </span>
+                                        </p>
                                     </td>
                                     <td >
                                         <span

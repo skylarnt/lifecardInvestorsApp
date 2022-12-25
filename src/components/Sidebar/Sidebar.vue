@@ -17,12 +17,21 @@
         APP
       </h5> -->
       <ul class="nav">
+      
         <NavLink
             :activeItem="activeItem"
             header="Dashboard"
             link="/app/dashboard"
             iconName="flaticon-homew"
             index="dashboard"
+            isHeader
+        />
+        <NavLink
+            :activeItem="activeItem"
+            header="Properties"
+            link="/app/properties"
+            iconName="flaticon-property1"
+            index="properties"
             isHeader
         />
          <!-- <NavLink

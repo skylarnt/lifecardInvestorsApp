@@ -12,9 +12,10 @@ import Register from '@/pages/Auth/Register';
 // Main
 import AnalyticsPage from '@/pages/Dashboard/Dashboard';
 import ReceiptPage from '@/pages/Dashboard/Receipt';
-import Properties from '@/pages/ManageRequests/Index';
+import manageRequest from '@/pages/ManageRequests/Index';
 import ApprovedRequests from '@/pages/ApprovedRequests/Index';
 import CompletedRequest from '@/pages/CompletedRequest/Index';
+import Properties from '@/pages/Properties/Index';
 
 
 
@@ -78,7 +79,7 @@ export default new Router({
         {
           path: 'manage-requests',
           name: 'ManageRequests',
-          component: Properties,
+          component: manageRequest,
           meta: {
             adminOnly:false
           }
@@ -95,6 +96,14 @@ export default new Router({
           path: 'completed-requests',
           name: 'CompletedRequests',
           component: CompletedRequest,
+          meta: {
+            adminOnly:false
+          }
+        },
+        {
+          path: 'properties',
+          name: 'Properties',
+          component: Properties,
           meta: {
             adminOnly:false
           }
