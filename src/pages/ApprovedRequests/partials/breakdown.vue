@@ -86,7 +86,7 @@ export default {
 
                 if(res.status == 200) {
                     this.transactions= res.data.data
-                    this.amount_paid=this.transactions.map(el => el.amount).reduce((ac,v) => ac + v,0)
+                    this.amount_paid=this.transactions.map(el => Number(el.amount)).reduce((ac,v) => ac + v,0)
                 } else {
                     if(res.status==422 && res.data.message =="The given data was invalid.") this.error_messg=res.data.errors
                     this.toast(res)
