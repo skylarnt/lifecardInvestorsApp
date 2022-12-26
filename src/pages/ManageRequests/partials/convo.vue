@@ -12,6 +12,7 @@
           <p>
                 <span
                 class="badge"
+                v-if="p.is_special=='yes'"
                 :class="{
                         
                     'badge-info' : data.is_special == 'yes',

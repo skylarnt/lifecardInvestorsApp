@@ -54,6 +54,7 @@
                                         {{ p.name }}
                                         <p>
                                             <span
+                                            v-if="p.is_special=='yes'"
                                             class="badge"
                                             :class="{
                                                 
