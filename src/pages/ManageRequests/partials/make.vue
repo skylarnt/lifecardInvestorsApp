@@ -91,8 +91,9 @@ export default {
                     this.$emit("submitted");
                 } else {
                     if(res.status==422 && res.data.message =="The given data was invalid.") this.error_messg=res.data.errors
-                    this.toast(res)
                 }
+                this.toast(res)
+
 
             });
         },
