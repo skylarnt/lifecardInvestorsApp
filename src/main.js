@@ -19,7 +19,9 @@ import 'vue-toastification/dist/index.css'
 import Toast from 'vue-toastification';
 import VueSocialSharing from 'vue-social-sharing'
 import Echo from 'laravel-echo';
+import pusher_js from 'pusher-js';
 import http from './axios-config.js'
+import axios from 'axios';
 import VueHtmlToPaper from 'vue-html-to-paper';
 Vue.prototype.$api = http;
 const options = {
@@ -40,8 +42,42 @@ Vue.use(VueHtmlToPaper, options);
 // or, using the defaults with no stylesheet
 Vue.use(VueHtmlToPaper);
 
-window.Pusher = require('pusher-js');
+window.Pusher = pusher_js;
+let token = JSON.parse(localStorage.getItem('auth_info')) && JSON.parse(localStorage.getItem('auth_info'))[0].auth_token || null;
+window.Echo = new Echo({
+  
+  // authEndpoint : 'http://co_invest_backend.test/broadcasting/auth',
 
+  broadcaster: 'pusher',
+  key: "02c4f2dddb6d7e201813",
+  cluster: "eu",
+  encrypted: true,
+  authorizer: (channel, options) => {
+    return {
+        authorize: (socketId, callback) => {
+            axios.post('http://co_invest_backend.test/api/broadcasting/auth', {
+                socket_id: socketId,
+                channel_name: channel.name
+            }, {
+              headers: {
+                Accept: "application/json",
+                authorization: `Bearer ${token}`
+              }
+            })
+            .then(response => {
+                callback(false, response.data);
+            })
+            .catch(error => {
+                callback(true, error);
+            });
+        }
+    };
+},
+  
+
+});
+
+  
 Vue.use(require('vue-moment'));
 Vue.use(BootstrapVue);
 Vue.use(Toast)

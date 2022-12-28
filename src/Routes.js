@@ -84,6 +84,14 @@ export default new Router({
             adminOnly:false
           }
         },
+        // {
+        //   path: 'manage-all-request',
+        //   name: 'ManageAllRequest',
+        //   component: manageAllRequest,
+        //   meta: {
+        //     adminOnly:false
+        //   }
+        // },
         {
           path: 'approved-requests',
           name: 'ApprovedRequests',

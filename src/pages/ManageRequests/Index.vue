@@ -1,5 +1,5 @@
 <template>
-    <v-app class="p-4">
+    <v-app v-if="auth_data &&auth_data.user_type !='admin'" class="p-4">
         <b-row>
             <b-col>
                 <Widget
@@ -223,11 +223,13 @@
         </v-dialog>
         <!-- V Dialog End -->
     </v-app>
+    <adminRequest  v-else />
 </template>
 <script>
 import Widget from '@/components/Widget/Widget';
 import MakeRequest from '@/pages/ManageRequests/partials/make';
 import Convo from '@/pages/ManageRequests/partials/convo';
+import adminRequest from '@/pages/ManageInvestors/requests/index';
 
 import axios from 'axios'
 import VueElementLoading from 'vue-element-loading'
@@ -235,7 +237,7 @@ import laravelVuePagination from 'laravel-vue-pagination'
 import { mapState,mapActions } from 'vuex';
 
 export default {
-    components:{Widget,VueElementLoading,laravelVuePagination, MakeRequest, Convo},
+    components:{Widget,VueElementLoading,laravelVuePagination, MakeRequest, Convo, adminRequest},
     data(){
         return {
             status_id:0,
@@ -254,14 +256,14 @@ export default {
         }
     },
     computed:{
-        ...mapState('page',['authToken'])
+        ...mapState('auth',['auth_data'])
     },
     mounted() {
         this.fetchData();
         this.getAuthData();
     },
     methods: {
-        ...mapActions('page', ['getAuthData']),
+        ...mapActions('auth', ['getAuthData']),
         
         fetchData(page=1) {
             this.loading = true

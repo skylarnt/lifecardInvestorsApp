@@ -36,10 +36,10 @@
         />
          <!-- <NavLink
             :activeItem="activeItem"
-            header="Update profile"
-            link="/app/profile"
+            header="Manage Request"
+            link="/app/manage-all-request"
             iconName="flaticon-account-box"
-            index="updateProfile"
+            index="ManageAllRequest"
             isHeader
         /> -->
         
@@ -64,6 +64,7 @@
             header="Completed Request  "
             link="/app/completed-requests"
             iconName="flaticon-property1"
+            v-if="auth_data &&auth_data.user_type !='admin'"
             index="completed-requests"
             isHeader
         />
@@ -162,7 +163,7 @@ export default {
     };
   },
   methods: {
-    ...mapActions('page', ['getAuthData']),
+    ...mapActions('auth', ['getAuthData']),
     ...mapActions('layout', ['changeSidebarActive', 'switchSidebar']),
     setActiveByRoute() {
       const paths = this.$route.fullPath.split('/');
@@ -189,9 +190,10 @@ export default {
   },
   mounted() {
     this.getAuthData();
+    console.log(this.auth_data.user_type);
   },
   computed: {
-    ...mapState('page', ['authToken']),
+    ...mapState('auth', ['auth_data']),
     ...mapState('layout', {
       sidebarStatic: state => state.sidebarStatic,
       sidebarOpened: state => !state.sidebarClose,
