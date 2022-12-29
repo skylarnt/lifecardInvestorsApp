@@ -61,6 +61,16 @@
         />
         <NavLink
             :activeItem="activeItem"
+            header="Manage users  "
+            link="/app/manage-users"
+            iconName="sflaticon-users"
+            v-if="auth_data &&auth_data.user_type =='admin'"
+
+            index="manage-users"
+            isHeader
+        />
+        <NavLink
+            :activeItem="activeItem"
             header="Completed Request  "
             link="/app/completed-requests"
             iconName="flaticon-property1"
@@ -190,7 +200,6 @@ export default {
   },
   mounted() {
     this.getAuthData();
-    console.log(this.auth_data.user_type);
   },
   computed: {
     ...mapState('auth', ['auth_data']),

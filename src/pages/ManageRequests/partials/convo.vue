@@ -98,6 +98,7 @@
 
 <script>
 import VueElementLoading from 'vue-element-loading'
+import { mapState,mapActions } from 'vuex';
 
 export default {
     props:['my_modal', 'data'],
@@ -116,14 +117,29 @@ export default {
 
         }
     },
+    computed:{
+        ...mapState('auth',['auth_data'])
+    },
     mounted() {
         this.scrollDiv()
 
         this.fetchData()
+        window.$this=this;
 
+        this.getAuthData()
+        window.pusher_app.bind(`message-${this.auth_data.id}`, function(data) {
+            $this.request_conversation.push(data.message)
+            $this.scrollDiv()
+            $this.$emit("message_in");
+            console.clear()
+
+        });
 
     },
+    
     methods:{
+        ...mapActions('auth', ['getAuthData']),
+
         closeMe() {
             this.$bvModal.hide('conversation')
         },

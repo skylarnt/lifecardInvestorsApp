@@ -18,12 +18,12 @@
                             duration="0.6"
                         />
                         <div class="mt-3"  >
-                            <div class="row">
+                            <div class="row" v-if="properties.length">
                                 <div class="col-md-4 mb-2" v-for="(p,i) in properties" :key="i">
                                     <div class="card">
                                         <div class="card-body">
                                             <div class="image my-2">
-                                                <img :src="p.image[0].image"
+                                                <img v-if="p.image != null" :src="p.image[0].image"
                                                 style="width:100%" />
                                             </div>
                                             <div class="desc">
@@ -44,6 +44,12 @@
                                     </div>
     
                                 </div>
+                            </div>
+                            <div
+                                v-else
+                                class="col-md-12 mt-3 alert alert-info text-center"
+                            >
+                                <p>No record found</p>
                             </div>
                         </div>
                         <!-- <div
@@ -95,13 +101,11 @@ export default {
     computed:{
         ...mapState('auth',['auth_data'])
     },
-    mounted() {
+    created() {
         this.fetchData();
         this.getAuthData();
-        window.Echo.private('chat')
-        .listen('message', () => {
-            alert()
-        });
+       
+
     },
     methods: {
         ...mapActions('auth', ['getAuthData']),

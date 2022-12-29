@@ -16,6 +16,7 @@ import manageRequest from '@/pages/ManageRequests/Index';
 import ApprovedRequests from '@/pages/ApprovedRequests/Index';
 import CompletedRequest from '@/pages/CompletedRequest/Index';
 import Properties from '@/pages/Properties/Index';
+import Users from '@/pages/ManageUsers/Index';
 
 
 
@@ -104,6 +105,14 @@ export default new Router({
           path: 'completed-requests',
           name: 'CompletedRequests',
           component: CompletedRequest,
+          meta: {
+            adminOnly:false
+          }
+        },
+        {
+          path: 'manage-users',
+          name: 'ManageUsers',
+          component: Users,
           meta: {
             adminOnly:false
           }

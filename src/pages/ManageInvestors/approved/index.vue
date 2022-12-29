@@ -6,7 +6,7 @@
                 title=""
                 customHeader
                 >
-                    <h5 class="d-inline-block">Manage  <span class='fw-semi-bold'>Approved Requests</span></h5>
+                    <h5 class="d-inline-block">Manage  <span class='fw-semi-bold'>Approved Property Requests</span></h5>
                    
                     
                     <VueElementLoading
@@ -17,7 +17,7 @@
                         duration="0.6"
                     />
                     <div class="mt-3" v-if="approvedRequests.length">
-                        <v-simple-table  >
+                        <v-simple-table  class="table-responsive">
                             <template v-slot:default>
                             <thead>
                                 <tr>
@@ -28,13 +28,19 @@
                                         Request
                                     </th>
                                     <th class="text-left">
-                                        Name
+                                        Client
+                                    </th>
+                                    <th class="text-left">
+                                        Property
                                     </th>
                                     <th class="text-left">
                                         Amount
                                     </th>
                                     <th class="text-left">
                                         Paid
+                                    </th>
+                                    <th class="text-left">
+                                        Contract
                                     </th>
                                     <th class="text-left">
                                         Status
@@ -54,6 +60,13 @@
                                         {{ p.request && p.request.name }}
                                     </td>
                                     <td >
+                                       <p class="mb-0">
+                                        {{ p.request && p.request.investor.fname }}
+                                       </p>
+                                       {{ p.request && p.request.investor.lname }}
+
+                                    </td>
+                                    <td >
                                         {{ p.name }}
                                     </td>
                                     <td >
@@ -61,6 +74,18 @@
                                     </td>
                                     <td >
                                         {{ Number(p.amount_paid ).toLocaleString()}}
+                                    </td>
+                                    <td>
+                                        <span
+                                            class="badge"
+                                            :class="{
+                                            'badge-warning' : p.contract_recieved == 'pending',
+                                            'badge-secondary' : p.contract_recieved == 'sent',
+                                            'badge-success' : p.contract_recieved == 'submitted',
+                                            }"
+                                        >
+                                            {{ p.contract_recieved }}
+                                        </span>
                                     </td>
                                     <td >
                                         <span
@@ -105,6 +130,33 @@
                                                      Record Payment
                                                     </v-list-item-title>
                                                 </v-list-item>
+                                                  
+                                                <v-list-item>
+                                                    <v-list-item-title
+                                                    style="cursor:pointer"
+                                                    @click="$bvModal.show('breakdownA'); current=p"
+                                                    v-if="p.status!='completed'"
+                                                    >
+                                                      Payment breakdown
+                                                    </v-list-item-title>
+                                                </v-list-item>
+                                                <v-list-item v-if="p.contract_recieved =='pending'">
+                                                    <v-list-item-title
+                                                    style="cursor:pointer"
+                                                    @click="openConfirm=true;dynamic_status='sent';status_id=p.id; current=p"
+                                                    >
+                                                      Contract  sent
+                                                    </v-list-item-title>
+                                                </v-list-item>
+                                                <v-list-item v-if="p.contract_recieved =='sent'">
+                                                    <v-list-item-title
+                                                    style="cursor:pointer"
+                                                    @click="openConfirm=true;dynamic_status='submitted';status_id=p.id; current=p"
+
+                                                    >
+                                                      Contract  submitted
+                                                    </v-list-item-title>
+                                                </v-list-item>
                                             </v-list>
                                         </v-menu>
                                     </td>
@@ -131,6 +183,9 @@
         <b-modal  :title="`Record Transaction for request ${current.name} `" id="record" hide-footer>
             <record :my_model="$bvModal" :auth_token="auth_token"  @done="fetchData()"  :data="current"  />
         </b-modal>
+        <b-modal size="lg"  :title="`View Transaction breakdown for ${current.request &&current.request.investor.fname} `" id="breakdownA" hide-footer>
+            <breakdown :my_model="$bvModal" :auth_token="auth_token"  @done="fetchData()"  :data="current"  />
+        </b-modal>
         
         
         <!-- Modals end -->
@@ -141,7 +196,7 @@
         >
             <v-card>
                 <v-card-title class="text-h5">
-                Change Request status to {{dynamic_status}}
+                Change Request contract status to {{dynamic_status}}
                 </v-card-title>
 
                 <v-card-text>
@@ -217,6 +272,7 @@
 import Widget from '@/components/Widget/Widget';
 
 import Record from '@/pages/ManageInvestors/approved/partials/record';
+import Breakdown from '@/pages/ManageInvestors/approved/partials/breakdown';
 
 import axios from 'axios'
 import VueElementLoading from 'vue-element-loading'
@@ -224,7 +280,7 @@ import laravelVuePagination from 'laravel-vue-pagination'
 import { mapState,mapActions } from 'vuex';
 
 export default {
-    components:{Widget,VueElementLoading,laravelVuePagination, Record},
+    components:{Widget,VueElementLoading,laravelVuePagination, Record, Breakdown},
     data(){
         return {
             status_id:0,
@@ -277,6 +333,23 @@ export default {
             .finally(() => {
                 this.loading = false
             })
+        },
+        toggle_status(id, status) {
+            this.loading=true;
+            this.$api.post(this.dynamic_route('/requests/admin/change_contract_status'), {
+                id, status
+            }).then((res) => {
+                this.loading=false;
+
+                if(res.status == 200) {
+                  this.fetchData()
+                } else {
+                    if(res.status==422 && res.data.message =="The given data was invalid.") this.error_messg=res.data.errors
+                }
+                this.toast(res)
+
+
+            });
         },
         
         

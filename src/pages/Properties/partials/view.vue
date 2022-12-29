@@ -49,9 +49,21 @@
                     </div>
                 </div>
                 <div class="mt-2">
-                    <h4>{{data.name}} -.</h4>
-                    <h4 class="text-info">Price {{ Number(data.amount).toLocaleString() }}</h4>
-                    <h4>Location {{ data.location }}</h4>
+                    <div>
+                        NAME:<h6>{{data.name}} -.</h6>
+
+                    </div>
+                    <div>
+                        PRICE: <h6 class="text-info"> {{ Number(data.amount).toLocaleString() }}</h6>
+
+                    </div>
+                    <div>
+                        LOCATION:<h6> {{ data.location }}</h6>
+
+                    </div>
+                    <div v-if="data.property_link !=null">
+                        <a class=" a" :href="data.property_link" target="_blank">View Property Link</a>
+                    </div>
                     <div v-html="data.description">
                     </div>
                 </div>
@@ -139,6 +151,9 @@ export default {
     }
 </style> -->
 <style>
+h6 {
+    display: inline-block
+}
 .convo {
         /* background: #002b49 !important; */
         /* color: white !important; */

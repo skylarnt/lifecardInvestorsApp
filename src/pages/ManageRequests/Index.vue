@@ -141,7 +141,7 @@
             <make-request :my_model="$bvModal"   @submitted="fetchData()"  />
         </b-modal>
         <b-modal  :title="`Your conversation for request ${current.name} `" id="conversation" hide-footer>
-            <convo :my_model="$bvModal"    :data="current"  />
+            <convo @message_in="fetchData" :my_model="$bvModal"    :data="current"  />
         </b-modal>
         
         <!-- Modals end -->

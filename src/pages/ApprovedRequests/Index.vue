@@ -7,7 +7,7 @@
                     title=""
                     customHeader
                     >
-                        <h5 class="d-inline-block">Approved  <span class='fw-semi-bold'>Requests</span></h5>
+                        <h5 class="d-inline-block">Approved  <span class='fw-semi-bold'>Property Requests</span></h5>
                         
                         
                         <VueElementLoading
@@ -38,6 +38,9 @@
                                             Paid
                                         </th>
                                         <th class="text-left">
+                                            Contract
+                                        </th>
+                                        <th class="text-left">
                                             Status
                                         </th>
                                         <th class="text-left">
@@ -63,12 +66,24 @@
                                         <td >
                                             {{ Number(p.amount_paid ).toLocaleString()}}
                                         </td>
+                                        <td>
+                                            <span
+                                                class="badge"
+                                                :class="{
+                                                'badge-warning' : p.contract_recieved == 'pending',
+                                                'badge-secondary' : p.contract_recieved == 'sent',
+                                                'badge-success' : p.contract_recieved == 'submitted',
+                                                }"
+                                            >
+                                                {{ p.contract_recieved }}
+                                            </span>
+                                        </td>
                                         <td >
                                             <span
                                                 class="badge"
                                                 :class="{
                                                 'badge-secondary' : p.status == 'processing',
-                                                'badge-info' : p.status == 'completed',
+                                                'badge-success' : p.status == 'completed',
                                                 }"
                                             >
                                                 {{ p.status }}
@@ -247,8 +262,10 @@ export default {
         ...mapState('auth',['auth_data', 'auth_token'])
     },
     mounted() {
-        this.fetchData();
         this.getAuthData();
+        if(this.auth_data.user_type =='user') {
+            this.fetchData()
+        }
     },
     methods: {
         ...mapActions('auth', ['getAuthData']),

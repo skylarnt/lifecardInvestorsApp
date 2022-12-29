@@ -10,7 +10,7 @@
         <router-view />
       </transition>
       <footer class="contentFooter">
-        CoInvest made by Lifecard Ltd.
+         Made by Lifecard Ltd.
       </footer>
     </v-touch>
   </div>

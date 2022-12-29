@@ -28,6 +28,9 @@
                                         Name
                                     </th>
                                     <th class="text-left">
+                                        Customer's Name
+                                    </th>
+                                    <th class="text-left">
                                         Status
                                     </th>
                                     <th class="text-left">
@@ -58,6 +61,9 @@
                                           Special request
                                         </span>
                                         </p>
+                                    </td>
+                                    <td>
+                                        {{ p.investor && p.investor.fname + ' ' +p.investor.lname}}
                                     </td>
                                     <td >
                                         <span
@@ -104,7 +110,7 @@
                                                 <v-list-item>
                                                     <v-list-item-title
                                                     style="cursor:pointer"
-                                                    @click="$bvModal.show('approve'); current=p"
+                                                    @click="p.investor_property_id==null ? pass_data(p) : other_process(p)"
                                                     v-if="p.status !='approved' && p.status !='completed'"
                                                     >
                                                      Approve Request
@@ -134,7 +140,7 @@
         <!-- Modals -->
         
         <b-modal  :title="`Your conversation for request ${current.name} `" id="conversation" hide-footer>
-            <convo :my_model="$bvModal" :auth_token="auth_token"   :data="current"  />
+            <convo @message_in="fetchData" :my_model="$bvModal" :auth_token="auth_token"   :data="current"  />
         </b-modal>
         <b-modal  :title="`Approve  ${current.name} request`" id="approve" hide-footer>
             <approve :my_model="$bvModal" :auth_token="auth_token" @done="fetchData()"   :data="current"  />
@@ -169,7 +175,7 @@
                 <v-btn
                     color="primary darken-1"
                     text
-                    @click="toggle_status(status_id, dynamic_status);openConfirm=false"
+                    @click="toggle_status(status_id);openConfirm=false"
 
                 >
                     Yes, continue
@@ -261,7 +267,7 @@ export default {
     methods: {
         ...mapActions('page', ['getAuthData']),
         
-        fetchData(page=1) {
+        fetchData() {
              this.loading = true
             axios
             .post(this.dynamic_route('/requests/admin/all'), {
@@ -285,6 +291,33 @@ export default {
             .finally(() => {
                 this.loading = false
             })
+        },
+        toggle_status(id) {
+            this.loading=true;
+            this.$api.post(this.dynamic_route('/requests/admin/approve_request'), {
+                name: this.current.property.name,
+                amount: this.current.property.amount,
+                request_id:id,
+                pi:this.current.property.id,
+            }).then((res) => {
+                this.loading=false;
+
+                if(res.status == 200) {
+                  this.fetchData()
+                } else {
+                    if(res.status==422 && res.data.message =="The given data was invalid.") this.error_messg=res.data.errors
+                }
+                this.toast(res)
+
+
+            });
+        },
+        pass_data(p) {
+            this.current=p
+            this.$bvModal.show('approve')
+        },
+        other_process(p) {
+            this.dynamic_status='approved';this.openConfirm=true;this.status_id=p.id ; this.current=p;
         },
         
         

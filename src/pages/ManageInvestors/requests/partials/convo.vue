@@ -1,3 +1,4 @@
+<!-- eslint-disable no-undef -->
 <template>
   <div>
     <form action="" @submit.prevent="reply">
@@ -99,6 +100,7 @@
 <script>
 import VueElementLoading from 'vue-element-loading'
 import axios from 'axios'
+import { mapState,mapActions } from 'vuex';
 
 export default {
     props:['my_modal', 'data', 'auth_token'],
@@ -116,12 +118,27 @@ export default {
             request_conversation:[],
         }
     },
+    computed:{
+        ...mapState('auth',['auth_data'])
+    },
     mounted() {
         this.scrollDiv()
         this.fetchData()
+        window.$this=this;
+
+        this.getAuthData()
+        window.pusher_app.bind(`message-${this.auth_data.id}`, function(data) {
+            $this.request_conversation.push(data.message)
+            $this.scrollDiv()
+            $this.$emit("message_in");
+            console.clear()
+
+        });
 
     },
     methods:{
+        ...mapActions('auth', ['getAuthData']),
+
         closeMe() {
             this.$bvModal.hide('conversation')
         },
@@ -133,45 +150,27 @@ export default {
             }, 1000);
         },
         reply() {
-            axios.post(this.dynamic_route('/requests/admin/reply_message'), {
+            this.$api.post(this.dynamic_route('/requests/admin/reply_message'), {
                 message: this.form.message,
                 request_id: this.data.id,
             }).then((res) => {
                 this.loading=false;
-                this.form={}
+                this.loading=false;
+
                 if(res.status == 200) {
                     this.request_conversation.push(res.data.data);
                     this.scrollDiv()
-                    
-                } 
-                this.$toast.success('Reply sent!', {
-                    position: 'top-center',
-                    timeout: 5000,
-                    closeOnClick: true,
-                    pauseOnFocusLoss: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    draggablePercent: 0.6,
-                    showCloseButtonOnHover: false,
-                    hideProgressBar: true,
-                    closeButton: 'button',
-                    icon: true,
-                    rtl: false,
-                })
-
-
-            })
-            .catch(err => {
-                if(err.response.status == 401 && err.response.statusText == "Unauthorized") {
-                    return this.logoutUser();
+                } else {
+                    if(res.status==422 && res.data.message =="The given data was invalid.") this.error_messg=res.data.errors
+                    this.toast(res)
                 }
-            // eslint-disable-next-line no-console
-            })
-            .finally(() => {
-                this.loading = false
+                this.form={}
+                
+
+
             });
         },
-        fetchData(page=1) {
+        fetchData() {
             this.loading = true
             axios
             .post(this.dynamic_route('/requests/admin/get_conversations'), {

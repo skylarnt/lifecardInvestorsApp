@@ -10,8 +10,8 @@
         duration="0.6"
     />
     <div>
-      <!-- <AdminDashboard v-if="authType.name== 'superadmin'" /> -->
-      <ClientDashboard :analytics="analytics"    @statusChecked="reQueryTrasaction" :key="CompKey"/>
+      <AdminDashboard v-if="auth_data.user_type== 'admin'" />
+      <ClientDashboard v-else :analytics="analytics"    @statusChecked="reQueryTrasaction" :key="CompKey"/>
     </div>
     
   </div>
@@ -42,7 +42,7 @@ export default {
   },
   
   computed: {
-    ...mapState('page', ['authToken']),
+    ...mapState('auth', ['auth_data']),
     donut() {
       let revenueData = this.getRevenueData();
       let {danger, info, primary} = this.appConfig.colors;
@@ -119,7 +119,7 @@ export default {
     };
   },
   methods: {
-    ...mapActions('page', ['getAuthData']),
+    ...mapActions('auth', ['getAuthData']),
     getRandomData() {
       const arr = [];
 

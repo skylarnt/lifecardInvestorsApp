@@ -27,6 +27,10 @@
                         <p class="date mb-0">{{tr.created_at | moment("from", true) }} ago</p>
                         <h3 class="mb-0">₦{{Number(tr.amount).toLocaleString()}}</h3>
                         <p class="mb-0 txt"> Was recorded as your payment.</p>
+                        <p class="mb-0 txt" v-if="tr.is_reciept_received=='yes'" >Receipt has been received</p>
+                        <p class="mb-0 txt" v-else> 
+                            <button class="btn p-0" type="button">Yet to receive receipt  </button>
+                        </p>
                     </div>
                     
                 </div>

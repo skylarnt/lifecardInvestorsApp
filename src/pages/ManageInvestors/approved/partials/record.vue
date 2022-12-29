@@ -80,7 +80,6 @@ export default {
         }
     },
     mounted() {
-        this.fetchData()
 
     },
     methods:{
@@ -144,31 +143,7 @@ export default {
                 this.loading = false
             });
         },
-        fetchData(page=1) {
-            this.loading = true
-            axios
-            .post(this.dynamic_route('/requests/admin/get_conversations'), {
-                request_id: this.data.id,
-            },{
-                headers:{
-                    authorization: `Bearer ${this.auth_token}`
-                }
-            })
-            .then(res => {
-                this.loading = false
-                this.request_conversation = res.data.data
-                this.loading = false
-            })
-            .catch(err => {
-                if(err.response.status == 401 && err.response.statusText == "Unauthorized") {
-                    return this.logoutUser();
-                }
-            // eslint-disable-next-line no-console
-            })
-            .finally(() => {
-                this.loading = false
-            })
-        },
+        
     }
 }
 </script>

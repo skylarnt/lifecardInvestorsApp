@@ -6,7 +6,7 @@
                 title=""
                 customHeader
                 >
-                    <h5 class="d-inline-block">Completed  <span class='fw-semi-bold'>Requests</span></h5>
+                    <h5 class="d-inline-block">Completed  <span class='fw-semi-bold'>Property Requests</span></h5>
                    
                     
                     <VueElementLoading
