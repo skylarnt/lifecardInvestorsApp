@@ -99,27 +99,27 @@
                                                 <i class="mdi mdi-square-edit-outline mr-1"></i> Edit Details
                                                 </v-list-item-title>
                                             </v-list-item>
-                                            <v-list-item>
+                                            <!-- <v-list-item>
                                                 <v-list-item-title
                                                 style="cursor:pointer"
                                                 @click="setCurrent(user); $bvModal.show('investments')"
                                                 >
                                                 <i class="mdi mdi-briefcase-account-outline mr-1"></i> View Investments
                                                 </v-list-item-title>
-                                            </v-list-item>
+                                            </v-list-item> -->
                                           
                                             
                                           
                                             
                                             
-                                            <v-list-item>
+                                            <!-- <v-list-item>
                                                 <v-list-item-title
                                                 style="cursor:pointer"
                                                 @click="openConfirm2=true;del_id=user.id"
                                                 >
                                                 <i class="mdi mdi-delete-forever-outline mr-1"></i> Delete Account
                                                 </v-list-item-title>
-                                            </v-list-item>
+                                            </v-list-item> -->
                                             <v-list-item>
                                                 <v-list-item-title
                                                 style="cursor:pointer"

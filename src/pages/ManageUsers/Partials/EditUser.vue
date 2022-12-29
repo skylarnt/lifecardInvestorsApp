@@ -51,16 +51,8 @@
                             required
                             ></v-text-field>
                         </v-col>
-                        <v-col
-                            cols="12"
-                        >
-                            <v-text-field
-                            label="Username"
-                            :rules="usernameRules"
-                            v-model="form.username"
-                            required
-                            ></v-text-field>
-                        </v-col>
+                      
+                        
                         <v-col
                             cols="12"
                         >
