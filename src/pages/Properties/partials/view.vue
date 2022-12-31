@@ -61,8 +61,15 @@
                         LOCATION:<h6> {{ data.location }}</h6>
 
                     </div>
+                    <div>
+                        TYPE:<h6> {{ data.type }}</h6>
+
+                    </div>
                     <div v-if="data.property_link !=null">
                         <a class=" a" :href="data.property_link" target="_blank">View Property Link</a>
+                    </div>
+                    <div v-if="data.video_link !=null">
+                        <a class=" a" :href="data.video_link" target="_blank">View Video Link</a>
                     </div>
                     <div v-html="data.description">
                     </div>

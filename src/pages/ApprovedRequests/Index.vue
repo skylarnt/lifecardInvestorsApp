@@ -107,8 +107,19 @@
                                                     <i class="text-white mdi mdi-cog-outline"></i>
                                                 </v-btn>
                                                 </template>
+                                                
     
                                                 <v-list>
+                                                    <v-list-item  >
+                                                    <v-list-item-title
+                                                    style="cursor:pointer"
+                                                    @click="$bvModal.show('view'); current=p"
+                                                   
+                                                    >
+                                                     View more info
+                                                    </v-list-item-title>
+                                                    
+                                                </v-list-item>
                                                   
                                                     
                                                     
@@ -147,6 +158,9 @@
             </b-modal>
             <b-modal  :title="`Your conversation for request ${current.name} `" id="conversation" hide-footer>
                 <convo :my_model="$bvModal"    :data="current"  />
+            </b-modal>
+            <b-modal  :title="`View  request ${current.name} `" id="view" hide-footer>
+                <viewModal :my_model="$bvModal" :auth_token="auth_token"     :data="current"  />
             </b-modal>
             
             <!-- Modals end -->
@@ -233,6 +247,7 @@ import Widget from '@/components/Widget/Widget';
 import BreakDown from '@/pages/ApprovedRequests/partials/breakdown';
 import Convo from '@/pages/ApprovedRequests/partials/convo';
 import adminApprovedRequest from '@/pages/ManageInvestors/approved/index';
+import view from '@/pages/ManageInvestors/approved/partials/view';
 
 import axios from 'axios'
 import VueElementLoading from 'vue-element-loading'
@@ -240,7 +255,7 @@ import laravelVuePagination from 'laravel-vue-pagination'
 import { mapState,mapActions } from 'vuex';
 
 export default {
-    components:{Widget,VueElementLoading,laravelVuePagination, BreakDown, Convo, adminApprovedRequest},
+    components:{Widget,VueElementLoading,laravelVuePagination, BreakDown, Convo, adminApprovedRequest, "viewModal":view},
     data(){
         return {
             status_id:0,

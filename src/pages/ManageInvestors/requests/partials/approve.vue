@@ -42,7 +42,20 @@
                         v-model="form.amount"
                         required
                         ></v-text-field>
-                        <small class="text-danger" v-if="error_messg.name">{{ error_messg.amount[0] }}</small>
+                        <small class="text-danger" v-if="error_messg.amount">{{ error_messg.amount[0] }}</small>
+                    </v-col>
+                    <v-col
+                        cols="12"
+                        sm="12"
+                        md="12"
+                    >
+                        <v-select
+                            v-model="form.type"
+                            :items="['house', 'land']"
+                            label="Property type*"
+                            :rules="typeRules"
+                        ></v-select>
+                        <small class="text-danger" v-if="error_messg.type">{{ error_messg.type[0] }}</small>
                     </v-col>
                     
                 </v-row>

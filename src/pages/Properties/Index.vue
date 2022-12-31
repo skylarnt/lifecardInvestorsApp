@@ -20,13 +20,21 @@
                         <div class="mt-3"  >
                             <div class="row" v-if="properties.length">
                                 <div class="col-md-4 mb-2" v-for="(p,i) in properties" :key="i">
-                                    <div class="card">
+                                    <div class="card" style="position:relative;overflow:hidden">
                                         <div class="card-body">
+                                            <p class=" mb-0 banner" v-if="p.new_update==1">
+                                                <span class="" style="font-weight:bold">
+                                                    <span class="spinner-grow spinner-grow-sm"></span>
+ Update 
+                                                </span>
+                                            </p>
                                             <div class="image my-2">
                                                 <img v-if="p.image != null" :src="p.image[0].image"
                                                 style="width:100%" />
                                             </div>
-                                            <div class="desc">
+                                            <div class="desc" :class="{
+                                                'mt-4' : p.new_update ==1
+                                            }">
                                                 <h5>{{p.name}}</h5>
                                                 <p class="text-right text-muted">
                                                    <!-- <div v-html="p.description">
@@ -132,5 +140,16 @@ export default {
 <style>
    .modal-body {
        background: white !important;
+   }
+   .banner {
+    width: 100%;
+    background: red;
+    color:white;
+    text-align: center;
+    padding: 5px;
+    transform: rotate(22deg);
+    position: absolute;
+    top: 4%;
+    right: -35%;
    }
 </style>

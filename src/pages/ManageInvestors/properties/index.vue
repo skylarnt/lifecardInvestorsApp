@@ -41,6 +41,9 @@
                                         Location
                                     </th>
                                     <th class="text-left">
+                                        Type
+                                    </th>
+                                    <th class="text-left">
                                         Status
                                     </th>
                                     <th class="text-left">
@@ -62,6 +65,9 @@
                                     </td>
                                     <td >
                                         {{ p.location }}
+                                    </td>
+                                    <td >
+                                        {{ p.type }}
                                     </td>
                                     <td >
                                         <span
@@ -217,8 +223,18 @@
                             md="12"
                         >
                             <v-text-field
-                            label="Link*"
+                            label="Property Link*"
                             v-model="current.property_link"
+                            ></v-text-field>
+                        </v-col>
+                        <v-col
+                            cols="12"
+                            sm="12"
+                            md="12"
+                        >
+                            <v-text-field
+                            label="Video Link*"
+                            v-model="current.video_link"
                             ></v-text-field>
                         </v-col>
                         

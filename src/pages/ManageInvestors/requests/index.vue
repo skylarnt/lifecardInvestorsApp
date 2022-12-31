@@ -299,6 +299,7 @@ export default {
                 amount: this.current.property.amount,
                 request_id:id,
                 pi:this.current.property.id,
+                type: this.current.property.type
             }).then((res) => {
                 this.loading=false;
 

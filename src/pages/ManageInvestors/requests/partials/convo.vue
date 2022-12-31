@@ -90,7 +90,9 @@
                     type="submit"
                     :disabled="!form.message"
                 >
-                    Send
+                    {{loadingChat==true ? 'Sending text' : 'Send'}}
+                <b-spinner v-if="loadingChat"  small />
+
                 </button>
             </v-card-actions>
         </form>
@@ -116,6 +118,7 @@ export default {
             loading:false,
             error_messg:{},
             request_conversation:[],
+            loadingChat:false,
         }
     },
     computed:{
@@ -128,10 +131,14 @@ export default {
 
         this.getAuthData()
         window.pusher_app.bind(`message-${this.auth_data.id}`, function(data) {
-            $this.request_conversation.push(data.message)
-            $this.scrollDiv()
-            $this.$emit("message_in");
-            console.clear()
+            let not_duplicate =$this.request_conversation.some(el => el.id != data.message.id);
+            if(not_duplicate){
+                $this.request_conversation.push(data.message)
+                $this.scrollDiv()
+                $this.$emit("message_in");
+                console.clear()
+
+            }
 
         });
 
@@ -150,12 +157,13 @@ export default {
             }, 1000);
         },
         reply() {
+            this.loadingChat=true;
             this.$api.post(this.dynamic_route('/requests/admin/reply_message'), {
                 message: this.form.message,
                 request_id: this.data.id,
             }).then((res) => {
-                this.loading=false;
-                this.loading=false;
+                this.loadingChat=false;
+                
 
                 if(res.status == 200) {
                     this.request_conversation.push(res.data.data);

@@ -33,6 +33,11 @@
                                 <td>{{ data.location }}</td>
 
                             </tr>
+                            <tr>
+                                <th>Type</th>
+                                <td>{{ data.type }}</td>
+
+                            </tr>
                         </tbody>
                     </table>
                 </div>

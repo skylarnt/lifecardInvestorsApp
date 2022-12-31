@@ -37,6 +37,28 @@
                             required
                         ></v-text-field>
                     </v-col>
+                    <v-col
+                        cols="12"
+                        sm="6"
+                        md="6"
+                    >
+                        <v-text-field
+                        label="Property link*"
+                        :rules="nameRules"
+                        v-model="form.property_link"
+                        ></v-text-field>
+                    </v-col>
+                    <v-col
+                        cols="12"
+                        sm="6"
+                        md="6"
+                    >
+                        <v-text-field
+                            v-model="form.video_link"
+                            label="Video link *"
+                            :rules="priceRules"
+                        ></v-text-field>
+                    </v-col>
                     
                     <v-col
                         cols="12"
@@ -49,6 +71,18 @@
                             label="Status*"
                             :rules="statusRules"
                             required
+                        ></v-select>
+                    </v-col>
+                    <v-col
+                        cols="12"
+                        sm="6"
+                        md="6"
+                    >
+                        <v-select
+                            v-model="form.type"
+                            :items="['house', 'land']"
+                            label="Property type*"
+                            :rules="typeRules"
                         ></v-select>
                     </v-col>
                     
@@ -129,6 +163,10 @@ export default {
             ],
             location:[
                 v => !!v || 'Location is required',
+            ],
+            typeRules:[
+                v => !!v || 'Property Type is required',
+
             ],
             priceRules: [
                 v => !!v || 'Price is required',

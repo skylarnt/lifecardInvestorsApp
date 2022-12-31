@@ -9,7 +9,20 @@
           <i class='fi flaticon-menu' />
         </a>
       </b-nav-item>
+     
     </b-nav>
+    <b-nav v-if="Object.keys(notifyProperty).length">
+      <b-nav-item>
+        <div class=" text-danger p-1 mt-2 px-3">
+        <p>New property has been created click to view   <span class="spinner-grow spinner-grow-sm"></span>
+</p> 
+      </div>
+        
+      </b-nav-item>
+     
+    </b-nav>
+
+   
     
     
     <!-- <a class="navbarBrand d-md-none">
@@ -72,6 +85,8 @@ export default {
        loggedInAs : false,
        loading : false,
        openConfirm:true,
+      notifyProperty:{},
+
     }
   },
   
@@ -81,6 +96,7 @@ export default {
     // setTimeout(() => {
     // }, 2000);
     this.getAuthData()
+    this.fetch()
      const user = JSON.parse(localStorage.getItem('auth_info'))  || null;
      if(user.length > 1){
        this.loggedInAs = user[0].auth_user
@@ -103,6 +119,20 @@ export default {
           return this.logoutUser();
         }
       })
+    },
+    fetch() {
+        this.$api
+        .post(this.dynamic_route('/properties/notify_new_property'))
+        .then(res => {
+            this.loading=false;
+
+            if(res.status == 200) {
+                this.notifyProperty=res.data.data
+            } else {
+                this.toast(res)
+            }
+        })
+        
     },
     switchSidebarMethod() {
       if (!this.sidebarClose) {

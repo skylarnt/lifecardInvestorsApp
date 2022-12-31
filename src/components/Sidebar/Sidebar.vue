@@ -170,6 +170,7 @@ export default {
           color: 'primary',
         },
       ],
+      notifyProperty:{},
     };
   },
   methods: {
