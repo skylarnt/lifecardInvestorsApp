@@ -13,9 +13,21 @@
                 <span class="text-h5">Create Property</span>
             </v-card-title> -->
             <v-card-text class="_body">
+                <div class="row">
+                    <div class="col-md-4 mb-2">
+                        <h5>Actual amount <span class="text-info">₦{{ Number(data.amount).toLocaleString() }}</span></h5>
+                        <h5>Total amount paid <span class="text-info">₦{{ Number(amount_paid).toLocaleString() }}</span></h5>
+                        <h5>Total amount left <span class="text-info">₦{{ (Number(data.amount) - Number(amount_paid)).toLocaleString() }}</span></h5>
+
+                    </div>
+                    <div class="col-md-8 mb-2">
+                        <div class="alert   shadow-sm" style="background-color: #dbf0ff;">
+                            <h4>Payment Info</h4>
+                            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Velit, similique!
+                        </div>
+                    </div>
+                </div>
                 
-                <h5>Actual amount <span class="text-info">₦{{ Number(data.amount).toLocaleString() }}</span></h5>
-                <h5>Total amount paid <span class="text-info">₦{{ Number(amount_paid).toLocaleString() }}</span></h5>
                 <div class="alt-vtl mt-3" v-if="transactions.length">
                     <div class="alt-event" 
                         v-for="(tr, i) in transactions" 

@@ -41,6 +41,12 @@
                   type="email"
                   required
                 ></v-text-field>
+                <v-autocomplete
+                  v-model="form.country"
+                  :items="countries"
+                  label="Country*"
+                  :rules="countryRule"
+                ></v-autocomplete>
                  <v-text-field
                   v-model="form.phone"
                   :counter="255"
@@ -143,7 +149,7 @@
 import Widget from '@/components/Widget/Widget';
 import axios from 'axios'
 import VueElementLoading from 'vue-element-loading'
-
+import newData from "@/countries.js"
 export default {
   name: 'LoginPage',
   components: { Widget,VueElementLoading },
@@ -166,6 +172,10 @@ export default {
         v => !!v || 'Phone Number is required',
         v => !isNaN(parseFloat(v)) && v >= 0 && v <= 9999999999999 || 'Password should be numbers',
       ],
+      countries:[],
+      countryRule: [
+        v => !!v || 'Country  is required'
+      ],
       emailRules: [
         v => !!v || 'E-mail is required',
         v => /.+@.+/.test(v) || 'E-mail must be valid',
@@ -180,7 +190,7 @@ export default {
   },
   methods: {
     login() {
-      if(Object.keys(this.form).length !=6) {
+      if(Object.keys(this.form).length !=7) {
         return this.$toast.error('All fields are required!', {
           position: 'top-center',
           timeout: 5000,
@@ -314,6 +324,9 @@ export default {
     togglePassword2() {
       this.showPassword2 = !this.showPassword2;
     },
+  },
+  mounted() {
+    this.countries=newData
   },
   created() {
     if (window.localStorage.getItem('auth_token') != null) {

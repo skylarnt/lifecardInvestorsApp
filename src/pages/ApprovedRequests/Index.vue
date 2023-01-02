@@ -18,86 +18,209 @@
                             duration="0.6"
                         />
                         <div class="mt-3" v-if="approvedRequests.length">
-                            <v-simple-table  >
-                                <template v-slot:default>
-                                <thead>
-                                    <tr>
-                                        <th class="text-left">
-                                            Index
-                                        </th>
-                                        <th class="text-left">
-                                            Request
-                                        </th>
-                                        <th class="text-left">
-                                            Name
-                                        </th>
-                                        <th class="text-left">
-                                            Amount
-                                        </th>
-                                        <th class="text-left">
-                                            Paid
-                                        </th>
-                                        <th class="text-left">
-                                            Contract
-                                        </th>
-                                        <th class="text-left">
-                                            Status
-                                        </th>
-                                        <th class="text-left">
-                                            Action
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr
-                                        v-for="(p,i) in approvedRequests"
-                                        :key="i" 
-                                    >
-                                    <td>{{ i + 1 }}</td>
-                                        <td >
-                                            {{ p.request && p.request.name }}
-                                        </td>
-                                        <td >
-                                            {{ p.name }}
-                                        </td>
-                                        <td >
-                                            {{ Number(p.amount).toLocaleString() }}
-                                        </td>
-                                        <td >
-                                            {{ Number(p.amount_paid ).toLocaleString()}}
-                                        </td>
-                                        <td>
-                                            <span
-                                                class="badge"
-                                                :class="{
-                                                'badge-warning' : p.contract_recieved == 'pending',
-                                                'badge-secondary' : p.contract_recieved == 'sent',
-                                                'badge-success' : p.contract_recieved == 'submitted',
-                                                }"
-                                            >
-                                                {{ p.contract_recieved }}
-                                            </span>
-                                        </td>
-                                        <td >
-                                            <span
-                                                class="badge"
-                                                :class="{
-                                                'badge-secondary' : p.status == 'processing',
-                                                'badge-success' : p.status == 'completed',
-                                                }"
-                                            >
-                                                {{ p.status }}
-                                            </span>
-                                        </td>
+                            <div class="row">
+                                <div class="col-md-6 mb-2"   v-for="(p,i) in approvedRequests"
+                                    :key="i" >
+                                    <div class="card">
                                         
-                                        <td >
+                                        <div class="card-body">
+                                            <h5 class="text-center">{{p.name}} ({{p.type}})</h5>
+                                            <table style="width:100%">
+                                                <tr>
+                                                    <td>
+                                                        Request:
+                                                        <!-- <p> -->
+                                                            {{ p.request && p.request.name }}
+                                                            
+                                                        <!-- </p> -->
+
+                                                    </td>
+                                                    <td >
+                                                        Client:
+                                                        <!-- <p> -->
+                                                            {{ p.request && p.request.investor.fname }}
+                                                        
+                                                            {{ p.request && p.request.investor.lname }}
+                                                        <!-- </p> -->
+
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                    Amount
+                                                    <p>
+                                                        {{ Number(p.amount).toLocaleString() }}
+                                                    </p>
+
+                                                    </td>
+                                                    <td >
+                                                    Paid
+                                                    <p>
+                                                        {{ Number(p.amount_paid).toLocaleString() }}
+                                                    </p>
+
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        Contract
+                                                        <p>
+                                                            <span
+                                                                class="badge"
+                                                                :class="{
+                                                                'badge-warning' : p.contract_recieved == 'pending',
+                                                                'badge-secondary' : p.contract_recieved == 'sent',
+                                                                'badge-success' : p.contract_recieved == 'submitted',
+                                                                }"
+                                                            >
+                                                                {{ p.contract_recieved }}
+                                                            </span>
+                                                        </p>
+
+                                                    </td>
+                                                    <td >
+                                                        Status
+                                                        <p>
+                                                            <span
+                                                            class="badge"
+                                                            :class="{
+                                                            'badge-warning' : p.status == 'processing',
+                                                            'badge-success' : p.status == 'completed',
+                                                            }"
+                                                            >
+                                                            {{ p.status }}
+                                                            </span>
+                                                        </p>
+
+                                                    </td>
+
+                                                </tr>
+                                                <tr>
+                                                            <td>
+                                                                Allocated
+                                                                <p>
+                                                                    <span
+                                                                        class="badge"
+                                                                        :class="{
+                                                                        'badge-warning' : p.allocated == 'no',
+                                                                        'badge-success' : p.allocated == 'yes',
+                                                                        }"
+                                                                        >
+                                                                        {{ p.allocated }}
+                                                                    </span>
+                                                                    
+                                                                </p>
+                                                            </td>
+                                                            <td >
+                                                                Allocation type
+                                                                <p>
+                                                                    <span
+                                                                        class="badge"
+                                                                        :class="{
+                                                                        'badge-success' : p.allocated == 'yes',
+                                                                        }"
+                                                                        >
+                                                                        
+                                                                        {{ p.allocation_type != null ?  p.allocation_type : 'Unknown' }} 
+                                                                        
+                                                                    </span>
+                                                                </p>
+                                                            </td>
+                                                        </tr>
+                                                        <tr v-if="p.type=='house'">
+                                                            <td>
+                                                                Key assigned
+                                                                <p>
+                                                                    <span
+                                                                        class="badge"
+                                                                        :class="{
+                                                                        'badge-warning' : p.key_allocated == 'no',
+                                                                        'badge-success' : p.key_allocated == 'yes',
+                                                                        }"
+                                                                        >
+                                                                        {{ p.key_allocated  }}
+
+                                                                    </span>
+                                                                </p>
+                                                            </td>
+                                                            <td >
+                                                                Deed of assignment 
+                                                                <p>
+                                                                    <span
+                                                                        class="badge"
+                                                                        :class="{
+                                                                        'badge-warning' : p.deed_of_assignment == 'no',
+                                                                        'badge-success' : p.deed_of_assignment == 'yes',
+                                                                        }"
+                                                                        >
+                                                                        {{ p.deed_of_assignment == 'not_assigned' ? 'Yet to assign' : 'Assigned'  }}
+
+                                                                    </span>
+                                                                </p>
+                                                            </td>
+                                                        </tr>
                                             
-                                            <v-menu
-                                                bottom
-                                                origin="center center"
-                                                transition="scale-transition"
-                                                :close-on-content-click="closeOnContentClick"
-                                            >
+                                            </table>
+                                            <!-- <div style="width:100%" id="accordion">
+                                                <a class="card-link" data-toggle="collapse" :href="`#collapse${i}`">
+                                                    Expand
+                                                </a>
+                                                <div style="width:100%" :id="`collapse${i}`" class="collapse" data-parent="#accordion">
+                                                
+                                                    <table style="width:100%">
+                                                    
+                                                        <tr>
+                                                            <td>
+                                                                Allocated
+                                                                <p>
+                                                                    {{ p.allocated }}
+                                                                </p>
+                                                            </td>
+                                                            <td >
+                                                                Allocation type
+                                                                <p>
+                                                                    {{ p.allocation_type != null ?  p.allocation_type : 'Unknown' }} 
+                                                                </p>
+                                                            </td>
+                                                        </tr>
+                                                        <tr v-if="p.type=='house'">
+                                                            <td>
+                                                                Key assigned
+                                                                <p>
+                                                                    {{ p.key_allocated  }}
+                                                                </p>
+                                                            </td>
+                                                            <td >
+                                                                Deed of assignment 
+                                                                <p>
+                                                                    {{ p.deed_of_assignment  }}
+                                                                </p>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                    
+                                                </div>
+
+                                            </div> -->
+                                            
+                                        </div>
+                                        <div class="card-footer " :class="{
+                                            'd-flex': p.investor_property_id==null,
+                                            'justify-content-between': p.investor_property_id==null
+                                        }">
+                                            <span
+                                                class="s"
+                                                    v-if="p.investor_property_id==null"
+                                                >
+                                                Special request
+                                                </span>
+                                            <div class="text-right">
+                                                <v-menu
+                                                    bottom
+                                                    origin="center center"
+                                                    transition="scale-transition"
+                                                    :close-on-content-click="closeOnContentClick"
+                                                >
                                                 <template #activator="{ on, attrs }">
                                                 <v-btn
                                                     v-bind="attrs"
@@ -133,11 +256,18 @@
                                                     </v-list-item>
                                                 </v-list>
                                             </v-menu>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                                </template>
-                            </v-simple-table>
+                                              
+                                                
+
+                                            </div>
+                                        </div>
+                                    
+                                        
+                                    </div>
+
+                                </div>
+                            </div>
+                            
                         </div>
                         <div
                             v-else

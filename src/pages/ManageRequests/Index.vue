@@ -81,7 +81,12 @@
                                     <td>
                                         <p class="mb-0 text-info" @click="$bvModal.show('conversation'); current=p">
                                             <span style="cursor:pointer">
-                                                {{ p.request_conversation.length }}
+                                                <span class="mdi mdi-chat-processing-outline"></span>
+                                                <sup>
+                                                    {{ p.request_conversation_count }}
+    
+                                                </sup>
+
                                             </span>
                                         </p>
                                     </td>

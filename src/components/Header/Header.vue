@@ -11,9 +11,9 @@
       </b-nav-item>
      
     </b-nav>
-    <b-nav v-if="Object.keys(notifyProperty).length">
+    <b-nav v-if="Object.keys(notifyProperty).length && (auth_data && auth_data.user_type!='admin')">
       <b-nav-item>
-        <div class=" text-danger p-1 mt-2 px-3">
+        <div @click="navigate()" class=" text-danger p-1 mt-2 px-3">
         <p>New property has been created click to view   <span class="spinner-grow spinner-grow-sm"></span>
 </p> 
       </div>
@@ -134,6 +134,9 @@ export default {
         })
         
     },
+    navigate() {
+      this.$router.push('/app/properties');
+    },
     switchSidebarMethod() {
       if (!this.sidebarClose) {
         this.switchSidebar(true);
@@ -162,9 +165,7 @@ export default {
       window.localStorage.removeItem('auth_info');
       this.$router.push('/');
     },
-    navigate() {
-      this.$router.push({name: 'ProfilePage'});
-    },
+    
     returnToMyAccount(){
         const auth_user = JSON.parse(localStorage.getItem('auth_info'))
         auth_user.shift();

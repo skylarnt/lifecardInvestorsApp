@@ -24,6 +24,7 @@
                         duration="0.6"
                     />
                     <div class="mt-3" v-if="data.length">
+                      
                         <v-simple-table  >
                             <template v-slot:default>
                             <thead>
@@ -134,7 +135,7 @@
                                                     </v-list-item-title>
                                                 </v-list-item>
                                                 <v-list-item v-if="p.status == 'active'">
-                                                <v-list-item-title
+                                                    <v-list-item-title
 
                                                     style="cursor:pointer"
                                                     @click="openConfirm=true;dynamic_status='inactive';status_id=p.id"
@@ -442,7 +443,7 @@ export default {
         axios
             .put(this.dynamic_route(`/properties/admin/toggle-status/${id}`), { id, status }, {
                 headers:{
-                    authorization: `Bearer ${this.authToken}`
+                    authorization: `Bearer ${this.auth_token}`
 
                 }
             })
@@ -492,7 +493,7 @@ export default {
         axios
             .delete(this.dynamic_route(`/properties/admin/${id}`), {
                 headers:{
-                    authorization: `Bearer ${this.authToken}`
+                    authorization: `Bearer ${this.auth_token}`
 
                 }
             })
