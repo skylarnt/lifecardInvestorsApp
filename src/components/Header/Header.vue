@@ -33,17 +33,19 @@
       <i class="fa fa-circle text-primary" />
     </a> -->
     <b-nav class="ml-auto">
+
       <b-nav-item-dropdown
+      style="    cursor: default !important;"
         class="notificationsMenu d-sm-down-none mr-2"
         menu-class="notificationsWrapper py-0 animate__animated animate__animated-fast animate__fadeIn"
         right>
-        <template slot="button-content">
+        <template slot="button-content" style="    cursor: default !important;">
 
             
-          <span v-if="auth_data" class="px-2">{{ auth_data.fname + ' ' +  auth_data.lname}}</span>
+          <span  v-if="auth_data" class="px-2">{{ auth_data.fname + ' ' +  auth_data.lname}}</span>
           <!-- <span class="ml-1 mr-2 circle text-white fw-bold avatar-badge">9</span> -->
         </template>
-        <Notifications @replied="fetchNotification" :notificationsData="notificationsData" />
+        <!-- <Notifications @replied="fetchNotification" :notificationsData="notificationsData" /> -->
       </b-nav-item-dropdown>
       <b-nav-item-dropdown id="v-step-2" class="settingsDropdown d-sm-down-none" no-caret right>
         <template slot="button-content">
@@ -192,7 +194,7 @@ export default {
 </script>
 
 <style src="./Header.scss" lang="scss"></style>
-<style scoped>
+<style >
   .notify {
     background: orange;
     width: 13px;
@@ -212,5 +214,8 @@ export default {
         right: 80% !important;
     }
   }
+#__BVID__36__BV_toggle_ {
+  cursor: default !important;
+}
  
 </style>
