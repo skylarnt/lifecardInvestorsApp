@@ -126,8 +126,8 @@
                                                             </p>
                                                         </td>
                                                     </tr>
-                                                    <tr v-if="p.type=='house'">
-                                                        <td>
+                                                    <tr  >
+                                                        <td v-if="p.type=='house'">
                                                             Key assigned
                                                             <p>
                                                                 <span
@@ -158,49 +158,33 @@
                                                             </p>
                                                         </td>
                                                     </tr>
+                                                     <tr v-if="p.type=='land'">
+                                                        <td>
+                                                            Deed of assignment type
+                                                            <p>
+                                                                <span
+                                                                
+                                                                    >
+                                                                    {{ p.deed_of_assignment_type ?p.deed_of_assignment_type: 'Not sent'   }}
+
+                                                                 </span>
+                                                            </p>
+                                                        </td>
+                                                        <td >
+                                                            Survey plan
+                                                            <p>
+                                                                <span
+                                                                
+                                                                    >
+                                                                    {{ p.survey_plan ? p.survey_plan : 'Not sent'   }}
+
+                                                                </span>
+                                                            </p>
+                                                        </td>
+                                                    </tr>
                                           
                                         </table>
-                                        <!-- <div style="width:100%" id="accordion">
-                                            <a class="card-link" data-toggle="collapse" :href="`#collapse${i}`">
-                                                Expand
-                                            </a>
-                                            <div style="width:100%" :id="`collapse${i}`" class="collapse" data-parent="#accordion">
-                                               
-                                                <table style="width:100%">
-                                                
-                                                    <tr>
-                                                        <td>
-                                                            Allocated
-                                                            <p>
-                                                                {{ p.allocated }}
-                                                            </p>
-                                                        </td>
-                                                        <td >
-                                                            Allocation type
-                                                            <p>
-                                                                {{ p.allocation_type != null ?  p.allocation_type : 'Unknown' }} 
-                                                            </p>
-                                                        </td>
-                                                    </tr>
-                                                    <tr v-if="p.type=='house'">
-                                                        <td>
-                                                            Key assigned
-                                                            <p>
-                                                                {{ p.key_allocated  }}
-                                                            </p>
-                                                        </td>
-                                                        <td >
-                                                            Deed of assignment 
-                                                            <p>
-                                                                {{ p.deed_of_assignment  }}
-                                                            </p>
-                                                        </td>
-                                                    </tr>
-                                                </table>
-                                                
-                                            </div>
-
-                                        </div> -->
+                                        
                                         
                                     </div>
                                     <div class="card-footer " :class="{
@@ -264,7 +248,7 @@
                                                       Payment breakdown
                                                     </v-list-item-title>
                                                 </v-list-item>
-                                                <v-list-item v-if="p.status=='completed' && p.allocated=='no'">
+                                                <v-list-item v-if="p.allocated=='no'">
                                                     <v-list-item-title
                                                     style="cursor:pointer"
                                                     @click="$bvModal.show('allocate'); current=p"
@@ -290,7 +274,15 @@
                                                       Assign  house key
                                                     </v-list-item-title>
                                                 </v-list-item>
-                                                <v-list-item v-if="p.status =='completed' && p.type=='house' && p.deed_of_assignment=='not_assigned'" > 
+                                                <v-list-item v-if="  p.survey_plan ==null" > 
+                                                    <v-list-item-title
+                                                    style="cursor:pointer"
+                                                    @click="$bvModal.show('survey'); current=p"
+                                                    >
+                                                      Survey plan
+                                                    </v-list-item-title>
+                                                </v-list-item>
+                                                <v-list-item v-if=" p.deed_of_assignment=='not_assigned'" > 
                                                     <v-list-item-title
                                                     style="cursor:pointer"
                                                     @click="openConfirm4=true;status_id=p.id; current=p"
@@ -344,6 +336,12 @@
         </b-modal>
         <b-modal  :title="`Allocate property  ${current.name} to user ${current.request && current.request.investor.fname} ${current.request && current.request.investor.lname}`" id="allocate" hide-footer>
             <allocate :my_model="$bvModal" :auth_token="auth_token"  @done="fetchData()"  :data="current"  />
+        </b-modal>
+        <b-modal  :title="`Deed of assignment  type for request  ${current.name} to user ${current.request && current.request.investor.fname} ${current.request && current.request.investor.lname}`" id="assignment_type" hide-footer>
+            <assignment-type :my_model="$bvModal" :auth_token="auth_token"  @done="fetchData()"  :data="current"  />
+        </b-modal>
+        <b-modal  :title="`Survey plan for  ${current.name} to user ${current.request && current.request.investor.fname} ${current.request && current.request.investor.lname}`" id="survey" hide-footer>
+            <survey :my_model="$bvModal" :auth_token="auth_token"  @done="fetchData()"  :data="current"  />
         </b-modal>
         <b-modal size="lg"  :title="`View Transaction breakdown for ${current.request &&current.request.investor.fname} `" id="breakdownA" hide-footer>
             <breakdown :my_model="$bvModal" :auth_token="auth_token"  @done="fetchData()"  :data="current"  />
@@ -511,6 +509,8 @@ import Widget from '@/components/Widget/Widget';
 
 import Record from '@/pages/ManageInvestors/approved/partials/record';
 import Allocate from '@/pages/ManageInvestors/approved/partials/allocateToUser';
+import Survey from '@/pages/ManageInvestors/approved/partials/survey';
+import AssignmentType from '@/pages/ManageInvestors/approved/partials/assignmentType';
 import Breakdown from '@/pages/ManageInvestors/approved/partials/breakdown';
 import view from '@/pages/ManageInvestors/approved/partials/view';
 
@@ -520,7 +520,7 @@ import laravelVuePagination from 'laravel-vue-pagination'
 import { mapState,mapActions } from 'vuex';
 
 export default {
-    components:{Widget,VueElementLoading,laravelVuePagination, Record, Breakdown, Allocate, "viewModal":view},
+    components:{Widget,VueElementLoading,laravelVuePagination, Record,AssignmentType, Breakdown, Allocate, "viewModal":view, Survey},
     data(){
         return {
             status_id:0,
@@ -611,21 +611,27 @@ export default {
             });
         },
         deedOfAssignment(id) {
-            this.loading=true;
-            this.$api.post(this.dynamic_route('/properties/admin/assign_deed_of_assignment'), {
-                 id
-            }).then((res) => {
-                this.loading=false;
+            if(this.current.type == 'land') {
+                this.$bvModal.show("assignment_type")
 
-                if(res.status == 200) {
-                  this.fetchData()
-                } else {
-                    if(res.status==422 && res.data.message =="The given data was invalid.") this.error_messg=res.data.errors
-                }
-                this.toast(res)
+            } else {
+                this.loading=true;
+                this.$api.post(this.dynamic_route('/properties/admin/assign_deed_of_assignment'), {
+                     id
+                }).then((res) => {
+                    this.loading=false;
+    
+                    if(res.status == 200) {
+                      this.fetchData()
+                    } else {
+                        if(res.status==422 && res.data.message =="The given data was invalid.") this.error_messg=res.data.errors
+                    }
+                    this.toast(res)
+    
+    
+                });
 
-
-            });
+            }
         },
         
         

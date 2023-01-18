@@ -90,6 +90,9 @@ export default {
        
         
         save() {
+
+            this.loading=true;
+
             axios.post(this.dynamic_route('/properties/admin/allocate_property/' + this.data.id), this.form,{
                 headers:{
                     authorization: `Bearer ${this.auth_token}`

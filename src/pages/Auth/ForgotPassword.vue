@@ -96,10 +96,11 @@ export default {
         });
       } else {
         this.loading=true;
-        axios.post(this.dynamic_route('/reset-password-request'), this.form)
+        axios.post(this.dynamic_auth_route('/reset-password-request'), this.form)
         .then(res => {
           this.sent=true;
           this.message=res.data.message;
+          localStorage.setItem('e', this.form.email)
           this.loading=false;
           this.$toast.success(res.data.message, {
               position: 'top-center',

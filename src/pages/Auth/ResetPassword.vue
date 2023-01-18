@@ -94,7 +94,7 @@ export default {
   },
   methods: {
     Reset() {
-      if(Object.keys(this.form).length < 3) {
+      if(Object.keys(this.form).length < 2) {
         this.$toast.error('All fields are required!', {
           position: 'top-center',
           timeout: 5000,
@@ -145,7 +145,8 @@ export default {
       } else {
         this.loading=true;
         this.form.token=this.$route.params.token
-        axios.post(this.dynamic_route('/reset-password'), this.form)
+        this.form.email = localStorage.getItem('e')
+        axios.post(this.dynamic_auth_route('/reset-password'), this.form)
         .then(res => {
           this.sent=true;
           this.message=res.data.message;
@@ -219,43 +220,7 @@ export default {
     },
   },
   created() {
-   axios.post(this.dynamic_route('/email-using-token'), {token: this.$route.params.token})
-   .then(res => {
-     if(res.data != 0)
-     this.form.email = res.data;
-     else {this.$toast.error("Invalid token passed, Your email could not be determined. Click the reset button from your gmail and try again", {
-        position: 'top-center',
-        timeout: 5000,
-        closeOnClick: true,
-        pauseOnFocusLoss: true,
-        pauseOnHover: true,
-        draggable: true,
-        draggablePercent: 0.6,
-        showCloseButtonOnHover: false,
-        hideProgressBar: true,
-        closeButton: 'button',
-        icon: true,
-        rtl: false,
-      })
-      this.errorStatus=true;
-     }
-   }).catch(err => {
-     this.$toast.error(err.response.data.message, {
-        position: 'top-center',
-        timeout: 5000,
-        closeOnClick: true,
-        pauseOnFocusLoss: true,
-        pauseOnHover: true,
-        draggable: true,
-        draggablePercent: 0.6,
-        showCloseButtonOnHover: false,
-        hideProgressBar: true,
-        closeButton: 'button',
-        icon: true,
-        rtl: false,
-      })
-      
-   })
+    
   },
 };
 </script>

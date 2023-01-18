@@ -59,7 +59,7 @@
                   </v-icon>
                 </v-text-field>
                 <b-button block :disabled="!valid" type="submit" class="auth-btn mt-3 btn-lg custom-btn">Login</b-button>
-                <!-- <router-link style="color: brown !important" class="d-block mt-1 text-right" to="/forgot-password">Forgot Password ?</router-link> -->
+                <router-link style="color: brown !important" class="d-block mt-1 text-right" to="/forgot-password">Forgot Password ?</router-link>
                 
               </v-form>
               <p class="widget-auth-info text-center py-2">

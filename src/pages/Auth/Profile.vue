@@ -4,47 +4,11 @@
     <v-app class="p-4">
         <h2 class="page-title">Profile Page</h2>
         <b-row>
+            
             <b-col
                 cols="12"
                 sm="12"
-                md="4"
-            >
-                <Widget
-                title=""
-                customHeader
-                class="text-center"
-                style="position:relative"
-                >
-                    <!-- <h5 class="d-inline-block">Manage  <span class='fw-semi-bold'>Your Profile</span></h5> -->
-                    <VueElementLoading
-                        :active="loading"
-                        spinner="bar-fade-scale"
-                        color="var(--primary)"
-                        text="Loading.."
-                        duration="0.6"
-                    />
-                    <div class="preview">
-
-                    </div>
-                    <div class="body pt-3 pb-3" >
-                        <div >
-                            <img class="avatar" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8cHJvZmlsZXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60" style="width:100%" alt="">
-                        </div>
-                        <div class="profile_content">
-                            <h4 class="">{{form.lname}}  {{form.fname}} {{form.mname}}</h4>
-                            <small class="mb-3">{{form.email}}</small>
-                            <button class="mt-5 p-2 btn btn-block btn-primary" :disabled="disableEdit" @click="$bvModal.show('change-password')">
-                                Change Password
-                            </button>
-
-                        </div>
-                    </div>
-                </Widget>
-            </b-col>
-            <b-col
-                cols="12"
-                sm="12"
-                md="8"
+                md="12"
             >
                 <Widget
                 title=""
@@ -274,7 +238,7 @@ export default {
         changePassword(){
             this.changePassLoading = true
              axios
-            .post(this.dynamic_route('/change-password'), 
+            .post(this.dynamic_auth_route('/change-password'), 
             this.form, {
                 headers:{
                     authorization: `Bearer ${this.authToken}`
@@ -316,7 +280,7 @@ export default {
         },
         getAuthUserData(){
             axios
-            .post(this.dynamic_route('/getUserData/all'), {
+            .post(this.dynamic_auth_route('/getUserData/all'), {
             filters: this.authInfo.auth_user.id,
             }, {
                 headers:{
@@ -383,7 +347,8 @@ export default {
             }).finally(() => {
                 this.loading=false;
             })
-        }
+        },
+        
     },
 }
 </script>

@@ -28,6 +28,14 @@
         />
         <NavLink
             :activeItem="activeItem"
+            header="Update profile"
+            link="/app/profile"
+            iconName="flaticon-account-box"
+            index="updateProfile"
+            isHeader
+        />
+        <NavLink
+            :activeItem="activeItem"
             header="Properties"
             link="/app/properties"
             iconName="flaticon-property1"

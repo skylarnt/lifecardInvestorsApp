@@ -51,6 +51,12 @@
         <template slot="button-content">
           <i class='fi flaticon-settings-10 px-2' />
         </template>
+        <b-dropdown-item @click="navigate2"><i class='fi flaticon-person px-3 mr-2' />My Account</b-dropdown-item>
+        <!-- <b-dropdown-item><i class='fi flaticon-person px-3 mr-2' />Password</b-dropdown-item> -->
+        <!-- <b-dropdown-item><i class='fi flaticon-email px-3 mr-3' />
+          Inbox &nbsp;&nbsp;<b-badge variant="inverse" pill class="animate__animated animate__bounceIn" style="padding: 6px 9px;">9</b-badge>
+        </b-dropdown-item> -->
+        <b-dropdown-divider />
         <!-- <b-dropdown-item @click="navigate"><i class='fi flaticon-person px-3 mr-2' />My Account</b-dropdown-item>
         <b-dropdown-divider /> -->
         <!-- <b-dropdown-item><i class='fi flaticon-person px-3 mr-2' />Password</b-dropdown-item> -->
@@ -108,7 +114,9 @@ export default {
     ...mapActions('layout', ['toggleSidebar', 'switchSidebar', 'changeSidebarActive']),
     
     ...mapActions('auth', ['getUserInfoFromBackEnd', 'getAuthData']),
-
+    navigate2() {
+      this.$router.push({name: 'ProfilePage'});
+    },
      fetchNotification(){
       axios.post(this.dynamic_route('/client/my-investments/quick-sale-notification'), {id: this.auth_data.id},{
         headers:{

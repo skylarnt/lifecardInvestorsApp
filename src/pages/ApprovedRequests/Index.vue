@@ -127,8 +127,8 @@
                                                                 </p>
                                                             </td>
                                                         </tr>
-                                                        <tr v-if="p.type=='house'">
-                                                            <td>
+                                                        <tr >
+                                                            <td v-if="p.type=='house'">
                                                                 Key assigned
                                                                 <p>
                                                                     <span
@@ -159,49 +159,32 @@
                                                                 </p>
                                                             </td>
                                                         </tr>
+                                                        <tr v-if="p.type=='land'">
+                                                            <td>
+                                                                Deed of assignment type
+                                                                <p>
+                                                                    <span
+                                                                    
+                                                                        >
+                                                                        {{ p.deed_of_assignment_type ?p.deed_of_assignment_type: 'Not sent'   }}
+
+                                                                    </span>
+                                                                </p>
+                                                            </td>
+                                                            <td >
+                                                                Survey plan
+                                                                <p>
+                                                                    <span
+                                                                    
+                                                                        >
+                                                                        {{ p.survey_plan ? p.survey_plan : 'Not sent'   }}
+
+                                                                    </span>
+                                                                </p>
+                                                            </td>
+                                                        </tr>
                                             
                                             </table>
-                                            <!-- <div style="width:100%" id="accordion">
-                                                <a class="card-link" data-toggle="collapse" :href="`#collapse${i}`">
-                                                    Expand
-                                                </a>
-                                                <div style="width:100%" :id="`collapse${i}`" class="collapse" data-parent="#accordion">
-                                                
-                                                    <table style="width:100%">
-                                                    
-                                                        <tr>
-                                                            <td>
-                                                                Allocated
-                                                                <p>
-                                                                    {{ p.allocated }}
-                                                                </p>
-                                                            </td>
-                                                            <td >
-                                                                Allocation type
-                                                                <p>
-                                                                    {{ p.allocation_type != null ?  p.allocation_type : 'Unknown' }} 
-                                                                </p>
-                                                            </td>
-                                                        </tr>
-                                                        <tr v-if="p.type=='house'">
-                                                            <td>
-                                                                Key assigned
-                                                                <p>
-                                                                    {{ p.key_allocated  }}
-                                                                </p>
-                                                            </td>
-                                                            <td >
-                                                                Deed of assignment 
-                                                                <p>
-                                                                    {{ p.deed_of_assignment  }}
-                                                                </p>
-                                                            </td>
-                                                        </tr>
-                                                    </table>
-                                                    
-                                                </div>
-
-                                            </div> -->
                                             
                                         </div>
                                         <div class="card-footer " :class="{

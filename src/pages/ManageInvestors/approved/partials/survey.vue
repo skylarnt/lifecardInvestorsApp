@@ -24,14 +24,15 @@
                         sm="12"
                         md="12"
                     >
-                        <v-text-field
-                        label="Amount*"
-                        :rules="nameRules"
-                        type="number"
-                        v-model="form.amount"
-                        required
-                        ></v-text-field>
-                        <small class="text-danger" v-if="error_messg.amount">{{ error_messg.amount[0] }}</small>
+                        <v-select
+                            v-model="form.type"
+                            :items="['soft_copy', 'hard_copy']"
+                            label="Survey Plan *"
+                            :rules="statusRules"
+                            required
+                        ></v-select>
+                        
+                        <small class="text-danger" v-if="error_messg.type">{{ error_messg.type[0] }}</small>
                     </v-col>
                     
                 </v-row>
@@ -49,7 +50,7 @@
                 <button
                     class="btn btn-primary"
                     type="submit"
-                    :disabled="!form.amount"
+                    :disabled="!form.type"
                 >
                     Save
                 </button>
@@ -84,16 +85,14 @@ export default {
     },
     methods:{
         closeMe() {
-            this.$bvModal.hide('record')
+            this.$bvModal.hide('survey')
         },
        
         
         save() {
-            this.form.approved_request_id = this.data.id
-            this.form.investor_id = this.data.request.investor_id;
             this.loading=true;
 
-            axios.post(this.dynamic_route('/requests/admin/record_transactions'), this.form,{
+            axios.post(this.dynamic_route('/properties/admin/survey_plan/' + this.data.id), this.form,{
                 headers:{
                     authorization: `Bearer ${this.auth_token}`
                 }
@@ -103,7 +102,7 @@ export default {
                 this.form={}
                 this.closeMe();
                 this.$emit('done')
-                this.$toast.success('Request approved !', {
+                this.$toast.success('Survey plan  added successfully !', {
                     position: 'top-center',
                     timeout: 5000,
                     closeOnClick: true,
