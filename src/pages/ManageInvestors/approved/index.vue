@@ -120,7 +120,7 @@
                                                                     }"
                                                                     >
                                                                     
-                                                                    {{ p.allocation_type != null ?  p.allocation_type : 'Unknown' }} 
+                                                                    {{ p.allocation_type != null ?  (p.allocation_type =='online' ?  'Paper' : 'Physical') : 'Unknown' }} 
                                                                     
                                                                  </span>
                                                             </p>
@@ -248,13 +248,13 @@
                                                       Payment breakdown
                                                     </v-list-item-title>
                                                 </v-list-item>
-                                                <v-list-item v-if="p.allocated=='no'">
+                                                <v-list-item >
                                                     <v-list-item-title
                                                     style="cursor:pointer"
                                                     @click="$bvModal.show('allocate'); current=p"
                                                     
                                                     >
-                                                      Allocate property
+                                                    Property  Allocation
                                                     </v-list-item-title>
                                                 </v-list-item>
 
@@ -274,7 +274,7 @@
                                                       Assign  house key
                                                     </v-list-item-title>
                                                 </v-list-item>
-                                                <v-list-item v-if="  p.survey_plan ==null" > 
+                                                <v-list-item  > 
                                                     <v-list-item-title
                                                     style="cursor:pointer"
                                                     @click="$bvModal.show('survey'); current=p"
@@ -282,7 +282,7 @@
                                                       Survey plan
                                                     </v-list-item-title>
                                                 </v-list-item>
-                                                <v-list-item v-if=" p.deed_of_assignment=='not_assigned'" > 
+                                                <v-list-item   > 
                                                     <v-list-item-title
                                                     style="cursor:pointer"
                                                     @click="openConfirm4=true;status_id=p.id; current=p"

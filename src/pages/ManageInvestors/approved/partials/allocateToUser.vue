@@ -25,8 +25,8 @@
                         md="12"
                     >
                         <v-select
-                            v-model="form.type"
-                            :items="['online', 'physical']"
+                            v-model="form.allocation_type"
+                            :items="['paper', 'physical']"
                             label="Allocation type*"
                             :rules="statusRules"
                             required
@@ -50,7 +50,7 @@
                 <button
                     class="btn btn-primary"
                     type="submit"
-                    :disabled="!form.type"
+                    :disabled="!form.allocation_type"
                 >
                     Save
                 </button>
@@ -74,13 +74,14 @@ export default {
             nameRules: [
                 v => !!v || 'This is a required',
             ],
-            form:{},
+            form:this.data,
             loading:false,
             error_messg:{},
             request_conversation:[],
         }
     },
     mounted() {
+        if(this.data.allocation_type =='online') this.data.allocation_type='paper'
 
     },
     methods:{
@@ -92,6 +93,9 @@ export default {
         save() {
 
             this.loading=true;
+            if(this.form.allocation_type =='paper') {
+                this.form.allocation_type='online'
+            }
 
             axios.post(this.dynamic_route('/properties/admin/allocate_property/' + this.data.id), this.form,{
                 headers:{

@@ -25,14 +25,14 @@
                         md="12"
                     >
                         <v-select
-                            v-model="form.type"
+                            v-model="form.deed_of_assignment_type"
                             :items="['soft_copy', 'hard_copy']"
                             label="Deed of assignment type*"
                             :rules="statusRules"
                             required
                         ></v-select>
                         
-                        <small class="text-danger" v-if="error_messg.type">{{ error_messg.type[0] }}</small>
+                        <small class="text-danger" v-if="error_messg.deed_of_assignment_type">{{ error_messg.deed_of_assignment_type[0] }}</small>
                     </v-col>
                     
                 </v-row>
@@ -50,7 +50,7 @@
                 <button
                     class="btn btn-primary"
                     type="submit"
-                    :disabled="!form.type"
+                    :disabled="!form.deed_of_assignment_type"
                 >
                     Save
                 </button>
@@ -74,7 +74,7 @@ export default {
             nameRules: [
                 v => !!v || 'This is a required',
             ],
-            form:{},
+            form:this.data,
             loading:false,
             error_messg:{},
             request_conversation:[],

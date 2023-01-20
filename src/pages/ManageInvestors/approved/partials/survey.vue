@@ -25,14 +25,14 @@
                         md="12"
                     >
                         <v-select
-                            v-model="form.type"
+                            v-model="form.survey_plan"
                             :items="['soft_copy', 'hard_copy']"
                             label="Survey Plan *"
                             :rules="statusRules"
                             required
                         ></v-select>
                         
-                        <small class="text-danger" v-if="error_messg.type">{{ error_messg.type[0] }}</small>
+                        <small class="text-danger" v-if="error_messg.survey_plan">{{ error_messg.survey_plan[0] }}</small>
                     </v-col>
                     
                 </v-row>
@@ -50,7 +50,7 @@
                 <button
                     class="btn btn-primary"
                     type="submit"
-                    :disabled="!form.type"
+                    :disabled="!form.survey_plan"
                 >
                     Save
                 </button>
@@ -74,7 +74,7 @@ export default {
             nameRules: [
                 v => !!v || 'This is a required',
             ],
-            form:{},
+            form:this.data,
             loading:false,
             error_messg:{},
             request_conversation:[],

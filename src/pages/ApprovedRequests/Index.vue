@@ -121,7 +121,7 @@
                                                                         }"
                                                                         >
                                                                         
-                                                                        {{ p.allocation_type != null ?  p.allocation_type : 'Unknown' }} 
+                                                                        {{ p.allocation_type != null ?  (p.allocation_type =='online' ?  'Paper' : 'Physical') : 'Unknown' }} 
                                                                         
                                                                     </span>
                                                                 </p>
