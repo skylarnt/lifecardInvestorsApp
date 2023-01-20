@@ -41,8 +41,11 @@
         right>
         <template slot="button-content" style="    cursor: default !important;">
 
-            
-          <span  v-if="auth_data" class="px-2">{{ auth_data.fname + ' ' +  auth_data.lname}}</span>
+          <span v-if="Object.keys(loggedInAs).length">Currently logged in as</span>
+          <strong class="text-info">
+            <span  v-if="auth_data" class="px-2">{{ auth_data.fname + ' ' +  auth_data.lname}}</span>
+
+          </strong>
           <!-- <span class="ml-1 mr-2 circle text-white fw-bold avatar-badge">9</span> -->
         </template>
         <!-- <Notifications @replied="fetchNotification" :notificationsData="notificationsData" /> -->
@@ -62,8 +65,11 @@
         <!-- <b-dropdown-item><i class='fi flaticon-person px-3 mr-2' />Password</b-dropdown-item> -->
         
         <!-- <b-dropdown-divider /> -->
-        <b-dropdown-item-button @click="logout">
+        <b-dropdown-item-button v-if="loggedInAs==false" @click="logout">
           <i class="fi flaticon-power-1 px-3 mr-3" /> Log Out
+        </b-dropdown-item-button>
+        <b-dropdown-item-button v-if="Object.keys(loggedInAs).length" @click="returnToMyAccount">
+          <i class="fi flaticon-power-1 px-3 mr-1" /> Back to admin
         </b-dropdown-item-button>
       </b-nav-item-dropdown>
 
@@ -180,7 +186,6 @@ export default {
         const auth_user = JSON.parse(localStorage.getItem('auth_info'))
         auth_user.shift();
         localStorage.setItem('auth_info',JSON.stringify(auth_user));
-        this.$bvModal.hide('returnBack')
         this.$toast.success('Operation successful!', {
           position: 'top-center',
           timeout: 3000,
@@ -195,7 +200,7 @@ export default {
           icon: true,
           rtl: false,
         });
-        this.$router.push('/home');
+        location.href='/app/dashboard'
     }
   }
 };

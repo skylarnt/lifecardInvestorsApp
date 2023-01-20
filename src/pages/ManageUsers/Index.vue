@@ -99,6 +99,14 @@
                                                 <i class="mdi mdi-square-edit-outline mr-1"></i> Edit Details
                                                 </v-list-item-title>
                                             </v-list-item>
+                                            <v-list-item>
+                                                <v-list-item-title
+                                                style="cursor:pointer"
+                                                @click="openConfirm4=true;reset_id=user.id;currentUser=user"
+                                                >
+                                                <i class="mdi mdi-square-edit-outline mr-1"></i> login as
+                                                </v-list-item-title>
+                                            </v-list-item>
                                             <!-- <v-list-item>
                                                 <v-list-item-title
                                                 style="cursor:pointer"
@@ -552,7 +560,7 @@ export default {
     loginAs(id) {
         this.loading = true
         axios
-            .get(this.dynamic_route(`/auth/login-as/${id}`), {
+            .get(this.dynamic_auth_route(`/login-as/${id}`), {
                 headers:{
                     authorization: `Bearer ${this.auth_token}`
                 }
@@ -569,7 +577,7 @@ export default {
 
                     data.unshift(newUser)
                     localStorage.setItem('auth_info', JSON.stringify(data));
-                    this.$router.push('/home');
+                    this.$router.push('/app/dashboard');
                 }
                 this.$toast.success('Operation successfully!', {
                     position: 'top-center',
