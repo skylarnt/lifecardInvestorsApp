@@ -51,7 +51,7 @@
                         required
                         ></v-text-field>
                     </v-col>
-                    <v-col
+                    <!-- <v-col
                         cols="12"
                         sm="6"
                         md="6"
@@ -63,7 +63,7 @@
                             :rules="priceRules"
                             required
                         ></v-text-field>
-                    </v-col>
+                    </v-col> -->
                     <v-col
                         cols="12"
                         sm="6"
@@ -135,15 +135,56 @@
                         cols="12"
                         sm="12"
                         md="12"
+                        class="mb-5"
                     >
                         <quillEditor
                             v-model="form.description"
                             ref="myQuillEditor"
                             :options="editorOption"
-                            style="height:150px"
+                            style="height:140px"
                             required
                                     
                             />
+                    </v-col>
+                    <v-col
+                        cols="12"
+                        sm="12"
+                        md="12"
+                        class="mt-4"
+                    >
+                        <!-- <p class="text-info pl-0">
+                            Add square meters
+                        </p> -->
+                        <div class="col-6 pl-0">
+                            <button type="button" @click="handleSquareMeterChange()" class="mb-3 btn btn-sm btn-info">
+                                Add more
+                            </button>
+                            <div class="clearfix"></div>
+                            <div class="row mb-0">
+                                <div class="col-6 mb-0 mb-0">
+                                    <label id="sqm">Square Meter</label>
+
+
+                                </div>
+                                <div class="col-6 mb-0 pb-0">
+                                    <label id="sqm">Price </label>
+
+
+                                </div>
+                            </div>
+                            <div class="row mt-0" v-for="(sq, i) in squareMeters" :key="i">
+                                <div class="col-6 mb-0 ">
+                                    <input required  v-model="sq.sqm" type="number" placeholder="1000" class="form-control">
+
+                                </div>
+                                <div class="col-6 mb-0">
+                                    <input required  v-model="sq.price" type="number" placeholder="2000000" class="form-control">
+                                    <!-- <i class="float-right mdi mdi-delete-forever-outline mr-1"></i> -->
+                                </div>
+                            </div>
+
+
+                        </div>
                     </v-col>
                 </v-row>
             </v-container>
@@ -229,6 +270,10 @@ export default {
             },
             image_data: [],
             main_data: [],
+            squareMeters: [{
+                sqm:'',
+                price:'',
+            }]
         }
     },
     watch: {
@@ -240,6 +285,12 @@ export default {
         
     },
     methods:{
+        handleSquareMeterChange() {
+            this.squareMeters.push({
+                sqm:'',
+                price:'',
+            })
+        },
         checkValue(prev_val) {
             // if(this.form.appreciate_percent_from_to !== "") return;
             if(Number(prev_val) >= Number(this.form.appreciate_percent_to)) {
@@ -311,16 +362,44 @@ export default {
         },
         save() {
             this.loading = true;
+            let error =[]
+            if(this.squareMeters.length) {
+                this.squareMeters.forEach((item, i) => {
+                    if((item.sqm != '' && item.price == '') || (item.price != '' && item.sqm == '')) error.push("Square meter and Price has to be filled")
+                })
+
+            }
+            if(error.length) {
+                this.$toast.error(error.join(""), {
+                    position: 'top-center',
+                    timeout: 5000,
+                    closeOnClick: true,
+                    pauseOnFocusLoss: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    draggablePercent: 0.6,
+                    showCloseButtonOnHover: false,
+                    hideProgressBar: true,
+                    closeButton: 'button',
+                    icon: true,
+                    rtl: false,
+                })
+               return;
+            }
             const productImgArray = this.image_data.map(item => item.file)
             const payload = new FormData();
             payload.append('name', this.form.name)
             payload.append('description', this.form.description)
-            payload.append('amount', this.form.amount)
+            // payload.append('amount', this.form.amount)
             payload.append('location', this.form.location)
             payload.append('status', this.form.status)
             payload.append('property_link', this.form.property_link)
             payload.append('type', this.form.type)
             payload.append('video_link', this.form.video_link)
+            payload.append('squareMeters', JSON.stringify(this.squareMeters))
+
+           
+            
             for (let i = 0; i < productImgArray.length; i++) {
                 payload.append('image[]', productImgArray[i])
             }

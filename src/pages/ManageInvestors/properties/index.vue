@@ -35,9 +35,7 @@
                                     <th class="text-left">
                                         Name
                                     </th>
-                                    <th class="text-left">
-                                        Amount
-                                    </th>
+                                    
                                     <th class="text-left">
                                         Location
                                     </th>
@@ -61,9 +59,7 @@
                                     <td >
                                         {{ p.name }}
                                     </td>
-                                    <td >
-                                        {{ p.amount }}
-                                    </td>
+                                    
                                     <td >
                                         {{ p.location }}
                                     </td>
@@ -194,7 +190,7 @@
         <b-modal size="lg" style="background:white" title=" Property" id="create" hide-footer>
             <create :my_model="$bvModal" :authToken="auth_token"   @submitted="fetchData()"  />
         </b-modal>
-        <b-modal size="lg" style="background:white" title="View Main Property" id="view" hide-footer>
+        <b-modal size="lg"  style="background:white" title="View Main Property" id="view" hide-footer>
             <viewModal :my_model="$bvModal" :data="current"    />
         </b-modal>
         <b-modal size="lg" style="background:white" title="Chnage or remove Main Property Image" id="change_image" hide-footer>
@@ -416,7 +412,6 @@ export default {
             this.main_name=name;
         },  
         pass_current(data) {
-            this.amount = data.amount.toLocaleString()
             this.current = data
         },
         closeMe() {

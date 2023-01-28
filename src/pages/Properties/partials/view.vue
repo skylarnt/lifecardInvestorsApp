@@ -73,6 +73,31 @@
                     </div>
                     <div v-html="data.description">
                     </div>
+                    <div class="col-6" v-if="squareMeter.length ">
+                        Square meter 
+                        <v-simple-table>
+                            <thead>
+                                <tr>
+                                <th>Square Meter</th>
+                                <th>Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="(tr, i) in squareMeter " :key="i">
+
+                                    <td>
+                                        {{ tr.sqm }}
+                                    </td>
+                                    <td>
+                                        {{ Number(tr.price).toLocaleString() }}
+                                    </td>
+
+                                </tr>
+
+                            </tbody>
+                        </v-simple-table>
+
+                    </div>
                 </div>
             </v-card-text>
             <v-card-actions  >
@@ -108,9 +133,12 @@ export default {
             form:{},
             loading:false,
             error_messg:{},
+            squareMeter: this.data.square_meters_info == null ? [] : this.data.square_meters_info
         }
     },
     mounted() {
+        
+        this.squareMeter=JSON.parse(this.squareMeter)
         
 
     },

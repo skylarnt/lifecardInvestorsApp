@@ -545,8 +545,11 @@ export default {
 
     },
     mounted() {
-        this.fetchData();
         this.getAuthData();
+        if(this.auth_data &&this.auth_data.user_type =='admin') {
+            this.fetchData();
+
+        }
     },
     methods: {
         ...mapActions('page', ['getAuthData']),

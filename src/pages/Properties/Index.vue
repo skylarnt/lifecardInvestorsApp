@@ -25,7 +25,7 @@
                                             <p class=" mb-0 banner" v-if="p.new_update==1">
                                                 <span class="" style="font-weight:bold">
                                                     <span class="spinner-grow spinner-grow-sm"></span>
- Update 
+                                                    Update 
                                                 </span>
                                             </p>
                                             <div class="image my-2">
@@ -36,11 +36,17 @@
                                                 'mt-4' : p.new_update ==1
                                             }">
                                                 <h5>{{p.name}}</h5>
-                                                <p class="text-right text-muted">
+                                                <p class="text-right text-muted" v-if="p.square_meters_info == null">
                                                    <!-- <div v-html="p.description">
     
                                                    </div> -->
                                                    ₦ {{ Number(p.amount).toLocaleString() }}
+                                                </p>
+                                                <p class="text-right text-muted" v-else>
+                                                   <!-- <div v-html="p.description">
+    
+                                                   </div> -->
+                                                  Has {{JSON.parse(p.square_meters_info).length }} different square meters
                                                 </p>
     
                                             </div>

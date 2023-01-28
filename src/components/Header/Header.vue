@@ -111,11 +111,15 @@ export default {
     // }, 2000);
     this.getAuthData()
     this.fetch()
-     const user = JSON.parse(localStorage.getItem('auth_info'))  || null;
-     if(user.length > 1){
-       this.loggedInAs = user[0].auth_user
-     }
+    const user = JSON.parse(localStorage.getItem('auth_info'))  || null;
+    if(user.length > 1){
+
+      this.loggedInAs = user[0].auth_user
+
+
+    }
   },
+  
   methods: {
     ...mapActions('layout', ['toggleSidebar', 'switchSidebar', 'changeSidebarActive']),
     

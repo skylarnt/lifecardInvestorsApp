@@ -34,7 +34,6 @@
                             type="number"
                             label="Price *"
                             :rules="priceRules"
-                            required
                         ></v-text-field>
                     </v-col>
                     <v-col
@@ -108,15 +107,56 @@
                         cols="12"
                         sm="12"
                         md="12"
+                        class="mb-5"
                     >
                         <quillEditor
                             v-model="form.description"
                             ref="myQuillEditor"
                             :options="editorOption"
-                            style="height:150px"
+                            style="height:140px"
                             required
                                     
                             />
+                    </v-col>
+                    <v-col
+                        cols="12"
+                        sm="12"
+                        md="12"
+                        class="mt-4"
+                    >
+                        <!-- <p class="text-info pl-0">
+                            Add square meters
+                        </p> -->
+                        <div class="col-6 pl-0">
+                            <button type="button" @click="handleSquareMeterChange()" class="mb-3 btn btn-sm btn-info">
+                                Add more
+                            </button>
+                            <div class="clearfix"></div>
+                            <div class="row mb-0">
+                                <div class="col-6 mb-0 mb-0">
+                                    <label id="sqm">Square Meter</label>
+
+
+                                </div>
+                                <div class="col-6 mb-0 pb-0">
+                                    <label id="sqm">Price </label>
+
+
+                                </div>
+                            </div>
+                            <div class="row mt-0" v-for="(sq, i) in form.square_meters_info" :key="i">
+                                <div class="col-6 mb-0 ">
+                                    <input required  v-model="sq.sqm" type="number" placeholder="1000" class="form-control">
+
+                                </div>
+                                <div class="col-6 mb-0">
+                                    <input required  v-model="sq.price" type="number" placeholder="2000000" class="form-control">
+                                    <!-- <i class="float-right mdi mdi-delete-forever-outline mr-1"></i> -->
+                                </div>
+                            </div>
+
+
+                        </div>
                     </v-col>
                 </v-row>
             </v-container>
@@ -184,6 +224,16 @@ export default {
             loading:false
         }
     },
+    mounted() {
+      if(  this.form.square_meters_info == null ) {
+        this.form.square_meters_info=[]
+      } else {
+        
+
+        this.form.square_meters_info=JSON.parse(this.form.square_meters_info)
+      }
+
+    },
     watch: {
         "form.description"() {
             this.delta = this.$refs.myQuillEditor.quill.getContents()
@@ -193,9 +243,16 @@ export default {
         closeMe() {
             this.$bvModal.hide("edit");
         },
+        handleSquareMeterChange() {
+            this.form.square_meters_info.push({
+                sqm:'',
+                price:'',
+            })
+        },
         update() {
             this.loading = true
             axios
+
             .post(this.dynamic_route(`/properties/admin/update/${this.form.id}`), this.form, {
                 headers:{
                   authorization: `Bearer ${this.authToken}`

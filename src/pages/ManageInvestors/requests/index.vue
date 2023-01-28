@@ -180,13 +180,72 @@
                 <v-btn
                     color="primary darken-1"
                     text
-                    @click="toggle_status(status_id);openConfirm=false"
+                    @click="openPriceModal()"
 
                 >
                     Yes, continue
                 </v-btn>
                 </v-card-actions>
             </v-card>
+        </v-dialog>
+        <v-dialog
+            v-model="openConfirmPrice"
+            max-width="490"
+        >
+            <!-- <form action="" @submit.prevent=""> -->
+
+                <v-card>
+                    <v-card-title class="text-h5">
+                        Select user price
+                    </v-card-title>
+                        <v-card-text>
+                            <div class="row">
+                                <div class="col-6">
+                                    <span>
+                                        Current Property Price
+                                        <input type="radio" required v-model="ptype" name="ptype" value="current" id="">
+                                    </span>
+        
+                                </div>
+                                <div class="col-6">
+                                    <span>
+                                        Custom Property Price
+                                        <input type="radio" required  v-model="ptype" name="ptype" value="custom" id="">
+                                    </span>
+                                </div>
+                                <div class="col-12" v-if="ptype=='custom'">
+                                    Custom price for this user only
+                                    <input type="number" required v-model="custom_price" class="form-control" name="" id="">
+                                </div>
+                            </div>
+                        </v-card-text>
+        
+                        <v-card-actions>
+                        <v-spacer></v-spacer>
+        
+                        <v-btn
+                            color=" darken-1"
+                            text
+                            type="button"
+                            @click="openConfirmPrice = false"
+                        >
+                            Exit
+                        </v-btn>
+        
+                        <v-btn
+                            color="primary darken-1"
+                            text
+                            type="button"
+                            @click="toggle_status(status_id)"
+        
+                        >
+                            Continue
+                        </v-btn>
+                        </v-card-actions>
+
+
+                </v-card>
+
         </v-dialog>
         <v-dialog
             v-model="openConfirm2"
@@ -251,6 +310,7 @@ export default {
             dynamic_status:'',
             openConfirm:false,
             openConfirm2:false,
+            openConfirmPrice:false,
             dialog:false,
             current:{},
             data: [],
@@ -258,6 +318,8 @@ export default {
             loading: false,
             isDialogVisible: false,
             closeOnContentClick: true,
+            ptype:'current',
+            custom_price:''
 
         }
     },
@@ -266,8 +328,11 @@ export default {
 
     },
     mounted() {
-        this.fetchData();
         this.getAuthData();
+        if(this.auth_data &&this.auth_data.user_type =='admin') {
+            this.fetchData();
+
+        }
     },
     methods: {
         ...mapActions('page', ['getAuthData']),
@@ -298,14 +363,41 @@ export default {
             })
         },
         toggle_status(id) {
+            if(this.ptype =='custom' && this.custom_price =='') {
+                this.$toast.error('Please input custom price', {
+                position: 'top-center',
+                timeout: 5000,
+                closeOnClick: true,
+                pauseOnFocusLoss: true,
+                pauseOnHover: true,
+                draggable: true,
+                draggablePercent: 0.6,
+                showCloseButtonOnHover: false,
+                hideProgressBar: true,
+                closeButton: 'button',
+                icon: true,
+                rtl: false,
+                })
+                return
+
+            }
+            this.openConfirmPrice=false
             this.loading=true;
-            this.$api.post(this.dynamic_route('/requests/admin/approve_request'), {
+
+            let payload = {
                 name: this.current.property.name,
-                amount: this.current.property.amount,
+                amount: this.current.square_meter_price == null ? this.current.property.amount : this.current.square_meter_price,
                 request_id:id,
                 pi:this.current.property.id,
                 type: this.current.property.type
-            }).then((res) => {
+            }
+
+            if(this.custom_price != '') {
+                payload.amount= this.custom_price
+                payload.custom_price=true
+            }
+            
+            this.$api.post(this.dynamic_route('/requests/admin/approve_request'), payload).then((res) => {
                 this.loading=false;
 
                 if(res.status == 200) {
@@ -324,6 +416,14 @@ export default {
         },
         other_process(p) {
             this.dynamic_status='approved';this.openConfirm=true;this.status_id=p.id ; this.current=p;
+        },
+        openPriceModal() {
+            
+            this.openConfirm=false
+            // setTimeout(() => {
+                this.openConfirmPrice=true;
+                
+            // }, 1000);
         },
         
         

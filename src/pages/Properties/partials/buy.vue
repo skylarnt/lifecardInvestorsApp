@@ -41,6 +41,35 @@
                         </tbody>
                     </table>
                 </div>
+                <div class="col-12 p-0" v-if="squareMeter.length">
+                    Square meter 
+                    <v-simple-table>
+                        <thead>
+                            <tr>
+                            <th>Square Meter</th>
+                            <th>Amount</th>
+                            <th>Select</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="(tr, i) in  squareMeter" :key="i">
+
+                                <td>
+                                    {{ tr.sqm }}
+                                </td>
+                                <td>
+                                    {{ Number(tr.price).toLocaleString() }}
+                                </td>
+                                <td>
+                                    <input required v-model="form.selected_square_meter" :value="tr" type="radio" name="sqM" >
+                                </td>
+
+                            </tr>
+
+                        </tbody>
+                    </v-simple-table>
+
+                </div>
            
                 
             </v-container>
@@ -79,10 +108,15 @@ export default {
             nameRules: [
                 v => !!v || 'This is a required',
             ],
-            form:{},
+            form:{selected_square_meter:null},
             loading:false,
             error_messg:{},
+            squareMeter: this.data.square_meters_info == null ? [] : this.data.square_meters_info
         }
+    },
+    mounted() {
+        this.squareMeter=JSON.parse(this.squareMeter)
+
     },
     methods:{
         closeMe() {
@@ -95,6 +129,11 @@ export default {
                 name: this.data.name,
                 pi: this.data.id
             }
+            if(this.form.selected_square_meter) {
+                payload.name = payload.name + ' ( ' + this.form.selected_square_meter.sqm + ' Square Meters)'
+                payload.sqm_price= this.form.selected_square_meter.price
+            }
+
             this.$api.post(this.dynamic_route('/requests/make'), payload).then((res) => {
                 this.loading=false;
 

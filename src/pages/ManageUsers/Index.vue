@@ -577,7 +577,7 @@ export default {
 
                     data.unshift(newUser)
                     localStorage.setItem('auth_info', JSON.stringify(data));
-                    this.$router.push('/app/dashboard');
+                    location.href="/app/dashboard"
                 }
                 this.$toast.success('Operation successfully!', {
                     position: 'top-center',

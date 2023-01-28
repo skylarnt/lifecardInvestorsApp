@@ -34,56 +34,71 @@
                         </div>
                     </div>
                 </div>
-                <div v-else>
+                <!-- <div v-else>
                     <embed :src="form.property_link" alt="" style="width:100%">
 
-                </div>
-                <v-row>
-                    <v-col
-                        cols="12"
-                        sm="3"
-                        md="3"
-                    >
-                        <v-text-field
-                        label="Name*"
-                        v-model="form.name"
-                        disabled
-                        ></v-text-field>
-                    </v-col>
-                    <v-col
-                        cols="12"
-                        sm="3"
-                        md="3"
-                    >
-                        <v-select
-                            v-model="form.status"
-                            :items="['active', 'inactive']"
-                            label="Status*"
-                            disabled
-                        ></v-select>
-                    </v-col>
-                    <v-col
-                        cols="12"
-                        sm="3"
-                        md="3"
-                    >
-                    <v-text-field
-                        label="Amount*"
-                        v-model="form.amount"
-                        disabled
-                        ></v-text-field>
-                    </v-col>
-                    
-                    <v-col
-                        cols="12"
-                        sm="12"
-                        md="12"
-                    >
-                        <div v-html="form.description">
+                </div> -->
+                <v-simple-table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                           <th>Type</th>
+                           <th>Location</th>
+                           <th>Status</th>
 
-                        </div>
-                    </v-col>
-                </v-row>
+                           <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                {{ form.name }}
+                            </td>
+                            <td>
+                                {{ form.type }}
+                            </td>
+                            <td>
+                                {{ form.location }}
+                            </td>
+                            <td>
+                                {{ form.status }}
+                            </td>
+                            <td>
+                                <div v-html="form.description">
+
+                                </div>
+                            </td>
+
+                        </tr>
+                    </tbody>
+                    
+                </v-simple-table>
+                <div class="col-6" v-if="form.square_meters_info.length">
+                    Square meter 
+                    <v-simple-table>
+                        <thead>
+                            <tr>
+                            <th>Square Meter</th>
+                            <th>Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="(tr, i) in  form.square_meters_info" :key="i">
+
+                                <td>
+                                    {{ tr.sqm }}
+                                </td>
+                                <td>
+                                    {{ Number(tr.price).toLocaleString() }}
+                                </td>
+
+                            </tr>
+
+                        </tbody>
+                    </v-simple-table>
+
+                </div>
+                
             </v-container>
             </v-card-text>
             <v-card-actions style="margin-top:100px">
@@ -108,6 +123,16 @@ export default {
             form:this.data,
             loading:false
         }
+    },
+    mounted() {
+      if(  this.form.square_meters_info == null ) {
+        this.form.square_meters_info=[]
+      } else {
+        
+
+        this.form.square_meters_info=JSON.parse(this.form.square_meters_info)
+      }
+
     },
     methods:{
         
