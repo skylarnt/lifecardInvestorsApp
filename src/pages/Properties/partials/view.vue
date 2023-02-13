@@ -74,8 +74,8 @@
                     <div v-html="data.description">
                     </div>
                     <div class="col-6" v-if="squareMeter.length ">
-                        Square meter 
-                        <v-simple-table>
+                        More info 
+                        <v-simple-table v-if="data.type =='land'">
                             <thead>
                                 <tr>
                                 <th>Square Meter</th>
@@ -83,7 +83,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="(tr, i) in squareMeter " :key="i">
+                                <tr v-for="(tr, i) in  squareMeter" :key="i">
 
                                     <td>
                                         {{ tr.sqm }}
@@ -91,6 +91,29 @@
                                     <td>
                                         {{ Number(tr.price).toLocaleString() }}
                                     </td>
+                                
+
+                                </tr>
+
+                            </tbody>
+                        </v-simple-table>
+                        <v-simple-table v-if="data.type =='house'">
+                            <thead>
+                                <tr>
+                                <th>Unit </th>
+                                <th>Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="(tr, i) in  squareMeter" :key="i">
+
+                                    <td>
+                                        {{ tr.unit }}
+                                    </td>
+                                    <td>
+                                        {{ Number(tr.price).toLocaleString() }}
+                                    </td>
+                                   
 
                                 </tr>
 
@@ -133,12 +156,16 @@ export default {
             form:{},
             loading:false,
             error_messg:{},
-            squareMeter: this.data.square_meters_info == null ? [] : this.data.square_meters_info
+            squareMeter: this.data.square_meters_info == null ? [] : this.data.square_meters_info,
+            columnNames:[],
         }
     },
     mounted() {
-        
-        this.squareMeter=JSON.parse(this.squareMeter)
+
+        if(this.squareMeter.length) {
+            this.columnNames= Object.keys(this.squareMeter[0])
+
+        } 
         
 
     },

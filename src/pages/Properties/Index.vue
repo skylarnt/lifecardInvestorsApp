@@ -42,13 +42,10 @@
                                                    </div> -->
                                                    ₦ {{ Number(p.amount).toLocaleString() }}
                                                 </p>
-                                                <p class="text-right text-muted" v-else>
-                                                   <!-- <div v-html="p.description">
-    
-                                                   </div> -->
+                                                <!-- <p class="text-right text-muted" v-else>
+                                                   
                                                   Has {{JSON.parse(p.square_meters_info).length }} different square meters
-                                                </p>
-    
+                                                </p> -->
                                             </div>
                                             <div class="options d-flex justify-content-between">
                                                 <button type="button" @click="$bvModal.show('view');current=p" class="btn btn-sm btn-info">View</button>

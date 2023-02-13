@@ -110,6 +110,7 @@
                             :items="['house', 'land']"
                             label="Property type*"
                             :rules="typeRules"
+                            required
                         ></v-select>
                     </v-col>
                     
@@ -151,6 +152,7 @@
                         sm="12"
                         md="12"
                         class="mt-4"
+                        v-if="form.type=='land'"
                     >
                         <!-- <p class="text-info pl-0">
                             Add square meters
@@ -175,6 +177,47 @@
                             <div class="row mt-0" v-for="(sq, i) in squareMeters" :key="i">
                                 <div class="col-6 mb-0 ">
                                     <input required  v-model="sq.sqm" type="number" placeholder="1000" class="form-control">
+
+                                </div>
+                                <div class="col-6 mb-0">
+                                    <input required  v-model="sq.price" type="number" placeholder="2000000" class="form-control">
+                                    <!-- <i class="float-right mdi mdi-delete-forever-outline mr-1"></i> -->
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </v-col>
+                    <v-col
+                        cols="12"
+                        sm="12"
+                        md="12"
+                        class="mt-4"
+                        v-if="form.type=='house'"
+                    >
+                        <!-- <p class="text-info pl-0">
+                            Add square meters
+                        </p> -->
+                        <div class="col-6 pl-0">
+                            <button type="button" @click="handleLandChange()" class="mb-3 btn btn-sm btn-info">
+                                Add more
+                            </button>
+                            <div class="clearfix"></div>
+                            <div class="row mb-0">
+                                <div class="col-6 mb-0 mb-0">
+                                    <label id="sqm">Unit</label>
+
+
+                                </div>
+                                <div class="col-6 mb-0 pb-0">
+                                    <label id="sqm">Price </label>
+
+
+                                </div>
+                            </div>
+                            <div class="row mt-0" v-for="(sq, i) in land" :key="i">
+                                <div class="col-6 mb-0 ">
+                                    <input required  v-model="sq.unit" type="number" placeholder="1000" class="form-control">
 
                                 </div>
                                 <div class="col-6 mb-0">
@@ -267,11 +310,16 @@ export default {
             form:{
                 property_link:'',
                 video_link:'',
+                type:'land',
             },
             image_data: [],
             main_data: [],
             squareMeters: [{
                 sqm:'',
+                price:'',
+            }],
+            land:[{
+                unit:'',
                 price:'',
             }]
         }
@@ -288,6 +336,12 @@ export default {
         handleSquareMeterChange() {
             this.squareMeters.push({
                 sqm:'',
+                price:'',
+            })
+        },
+        handleLandChange() {
+            this.land.push({
+                unit:'',
                 price:'',
             })
         },
@@ -369,6 +423,12 @@ export default {
                 })
 
             }
+            if(this.land.length) {
+                this.land.forEach((item, i) => {
+                    if((item.unit != '' && item.price == '') || (item.price != '' && item.unit == '')) error.push("Land unit and Price has to be filled")
+                })
+
+            }
             if(error.length) {
                 this.$toast.error(error.join(""), {
                     position: 'top-center',
@@ -396,7 +456,7 @@ export default {
             payload.append('property_link', this.form.property_link)
             payload.append('type', this.form.type)
             payload.append('video_link', this.form.video_link)
-            payload.append('squareMeters', JSON.stringify(this.squareMeters))
+            payload.append('squareMeters',this.form.type =='land' ?  JSON.stringify(this.squareMeters) : JSON.stringify(this.land)) 
 
            
             

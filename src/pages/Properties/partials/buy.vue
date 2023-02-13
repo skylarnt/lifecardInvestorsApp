@@ -42,8 +42,8 @@
                     </table>
                 </div>
                 <div class="col-12 p-0" v-if="squareMeter.length">
-                    Square meter 
-                    <v-simple-table>
+                    More info 
+                    <v-simple-table v-if="data.type =='land'">
                         <thead>
                             <tr>
                             <th>Square Meter</th>
@@ -56,6 +56,31 @@
 
                                 <td>
                                     {{ tr.sqm }}
+                                </td>
+                                <td>
+                                    {{ Number(tr.price).toLocaleString() }}
+                                </td>
+                                <td>
+                                    <input required v-model="form.selected_square_meter" :value="tr" type="radio" name="sqM" >
+                                </td>
+
+                            </tr>
+
+                        </tbody>
+                    </v-simple-table>
+                    <v-simple-table v-if="data.type =='house'">
+                        <thead>
+                            <tr>
+                            <th>Unit </th>
+                            <th>Amount</th>
+                            <th>Select</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="(tr, i) in  squareMeter" :key="i">
+
+                                <td>
+                                    {{ tr.unit }}
                                 </td>
                                 <td>
                                     {{ Number(tr.price).toLocaleString() }}
@@ -115,7 +140,15 @@ export default {
         }
     },
     mounted() {
+        try {
         this.squareMeter=JSON.parse(this.squareMeter)
+
+            
+        }finally {
+            // eslint-disable-next-line no-unsafe-finally
+            return false;
+            
+        }
 
     },
     methods:{
@@ -130,7 +163,15 @@ export default {
                 pi: this.data.id
             }
             if(this.form.selected_square_meter) {
-                payload.name = payload.name + ' ( ' + this.form.selected_square_meter.sqm + ' Square Meters)'
+                if(this.form.selected_square_meter.hasOwnProperty('sqm')) {
+                    payload.name = payload.name + ' ( ' + this.form.selected_square_meter.sqm + ' Square Meters)'
+
+                }
+                else if (this.form.selected_square_meter.hasOwnProperty('unit')) {
+                    payload.name = payload.name + ' ( ' + this.form.selected_square_meter.unit + ' Unit )'
+
+
+                }
                 payload.sqm_price= this.form.selected_square_meter.price
             }
 
