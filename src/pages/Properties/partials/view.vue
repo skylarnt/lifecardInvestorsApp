@@ -166,6 +166,12 @@ export default {
             this.columnNames= Object.keys(this.squareMeter[0])
 
         } 
+        try {
+            this.squareMeter = JSON.parse(this.squareMeter)
+            
+        } finally {
+            return false
+        }
         
 
     },
