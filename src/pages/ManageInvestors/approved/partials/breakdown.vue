@@ -37,6 +37,7 @@
                             'right' : (i+1) % 2 < 1
                         }"
                     >
+                        <button class="btn btn-primary float-right" @click="trans_rec = tr; $bvModal.show('EditBreakdown'); current=p">Edit</button>
                         <p class="date mb-0">{{tr.created_at | moment("from", true) }} ago</p>
                         <h3 class="mb-0">₦{{Number(tr.amount).toLocaleString()}}</h3>
                         <p class="mb-0 txt"> Was recorded as this user payment.</p>
@@ -63,23 +64,35 @@
                 
             </v-card-actions>
 
+            <b-modal size="lg"  title="Edit Breakdown" id="EditBreakdown" hide-footer>
+            <EditBreakdown :my_model="$bvModal" :auth_token="auth_token"  @done="fetch()"  :data="trans_rec"  />
+        </b-modal>
+
         </form>
   </div>
 </template>
 
 <script>
 import VueElementLoading from 'vue-element-loading'
+import EditBreakdown from '@/pages/ManageInvestors/approved/partials/EditBreakdown';
+import { mapState,mapActions } from 'vuex';
 
 export default {
     props:['my_modal', 'data'],
     components:{
         VueElementLoading,
+        EditBreakdown
+    },
+    computed:{
+        ...mapState('auth',['auth_token', 'auth_data']),
+
     },
     data() {
         return {
             nameRules: [
                 v => !!v || 'This is a required',
             ],
+            trans_rec: {},
             form:{},
             loading:false,
             error_messg:{},
@@ -91,6 +104,7 @@ export default {
         this.fetch()
     },
     methods:{
+        ...mapActions('page', ['getAuthData']),
         closeMe() {
             this.$bvModal.hide('breakdownA')
         },

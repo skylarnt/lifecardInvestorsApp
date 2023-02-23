@@ -22,7 +22,7 @@
                         text="Loading.."
                         duration="0.6"
                     />
-                    <div class="mt-3" v-if="allRequests.length">
+                    <div class="mt-3" v-if="allRequests.data.length">
                         <v-simple-table  >
                             <template v-slot:default>
                             <thead>
@@ -46,7 +46,7 @@
                             </thead>
                             <tbody>
                                 <tr
-                                    v-for="(p,i) in allRequests"
+                                    v-for="(p,i) in allRequests.data"
                                     :key="i" 
                                 >
                                 <td>{{ i + 1 }}</td>
@@ -135,7 +135,7 @@
                         <p>No record found</p>
                     </div>
                     <div class="col-md-12">
-                        <!-- <laravelVuePagination :data="properties" @pagination-change-page="fetchData" /> -->
+                        <laravelVuePagination :data="allRequests" @pagination-change-page="fetchData" />
                     </div>
                 </Widget>
             </b-col>
@@ -276,7 +276,7 @@ export default {
         fetchData(page=1) {
             this.loading = true
             this.$api
-            .post(this.dynamic_route('/requests/get'), {
+            .post(this.dynamic_route(`/requests/get/page=${page}`), {
              filters: this.filters,
             })
             .then(res => {

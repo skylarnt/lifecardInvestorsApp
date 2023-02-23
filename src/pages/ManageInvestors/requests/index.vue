@@ -16,7 +16,7 @@
                         text="Loading.."
                         duration="0.6"
                     />
-                    <div class="mt-3" v-if="data.length">
+                    <div class="mt-3" v-if="data.data.length">
                         <v-simple-table  >
                             <template v-slot:default>
                             <thead>
@@ -43,7 +43,7 @@
                             </thead>
                             <tbody>
                                 <tr
-                                    v-for="(p,i) in data"
+                                    v-for="(p,i) in data.data"
                                     :key="i" 
                                 >
                                 <td>{{ i + 1 }}</td>
@@ -136,7 +136,9 @@
                         <p>No record found</p>
                     </div>
                     <div class="col-md-12">
-                        <!-- <laravelVuePagination :data="data" @pagination-change-page="fetchData" /> -->
+                        <div class="col-md-12">
+                        <Pagination :data="data" @pagination-change-page="fetchData" />
+                    </div>
                     </div>
                 </Widget>
             </b-col>
@@ -302,7 +304,7 @@ import laravelVuePagination from 'laravel-vue-pagination'
 import { mapState,mapActions } from 'vuex';
 
 export default {
-    components:{Widget,VueElementLoading,laravelVuePagination,  Convo, Approve},
+    components:{Widget,VueElementLoading,'Pagination': laravelVuePagination,  Convo, Approve},
     data(){
         return {
             status_id:0,
@@ -337,10 +339,10 @@ export default {
     methods: {
         ...mapActions('page', ['getAuthData']),
         
-        fetchData() {
+        fetchData(page=1) {
              this.loading = true
             axios
-            .post(this.dynamic_route('/requests/admin/all'), {
+            .post(this.dynamic_route(`/requests/admin/all?page=${page}`), {
             filters: this.filters,
             },{
                 headers:{

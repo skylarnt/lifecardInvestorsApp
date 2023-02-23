@@ -16,9 +16,9 @@
                         text="Loading.."
                         duration="0.6"
                     />
-                    <div class="mt-3" v-if="approvedRequests.length">
+                    <div class="mt-3" v-if="approvedRequests.data.length">
                         <div class="row">
-                            <div class="col-md-6 mb-2"   v-for="(p,i) in approvedRequests"
+                            <div class="col-md-6 mb-2"   v-for="(p,i) in approvedRequests.data"
                                     :key="i" >
                                 <div class="card">
                                     
@@ -320,7 +320,7 @@
                         <p>No record found</p>
                     </div>
                     <div class="col-md-12">
-                        <!-- <laravelVuePagination :data="data" @pagination-change-page="fetchData" /> -->
+                        <laravelVuePagination :data="approvedRequests" @pagination-change-page="fetchData" />
                     </div>
                 </Widget>
             </b-col>
@@ -557,7 +557,7 @@ export default {
         fetchData(page=1) {
              this.loading = true
             axios
-            .post(this.dynamic_route('/requests/admin/all_approved_request'), {
+            .post(this.dynamic_route(`/requests/admin/all_approved_request?page=${page}`), {
             filters: this.filters,
             },{
                 headers:{

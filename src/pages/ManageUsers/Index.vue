@@ -17,7 +17,7 @@
                     <input type="text" v-model="filter.search" @keyup="searchData"
                         class="form-control form-control-lg" placeholder="Search users by email, name, username or phone">
                 </div>
-                <div class="table-responsive mt-4" v-if="users.length">
+                <div class="table-responsive mt-4" v-if="users.data.length">
                     <table class="table table-hover table-sm mb-0 requests-table">
                         <thead>
                             <tr>
@@ -31,7 +31,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="(user, index) in users" :key="user.id">
+                            <tr v-for="(user, index) in users.data" :key="user.id">
                                 <td>{{index+1}}</td>
                                 <td>
                                     <span class="d-flex pt-2">
@@ -143,6 +143,7 @@
                             </tr>
                         </tbody>
                     </table>
+                    
                 </div>
                 <div
                     v-else
@@ -153,7 +154,11 @@
                         <p>No record found</p>
 
                     </div>
+
                 </div>
+                <div class="col-md-12">
+                        <Pagination :data="users" @pagination-change-page="getUsers" />
+                    </div>
             </Widget>
       </b-col>
     </b-row>
@@ -328,10 +333,10 @@ import { mapState, mapActions } from 'vuex';
 import axios from "axios"
 import edit from '@/pages/ManageUsers/Partials/EditUser'
 import userInvestments from '@/pages/ManageUsers/Partials/UserInvestments'
-
+import laravelVuePagination from 'laravel-vue-pagination'
 export default {
   name: 'ManageUsers',
-  components: { Widget, VueElementLoading, edit,userInvestments },
+  components: { Widget, VueElementLoading, edit,userInvestments, 'Pagination': laravelVuePagination },
   data() {
     return {
         loading: false,
@@ -368,15 +373,15 @@ export default {
         }, '');
         return initials;
     },
-    getUsers(){
+    getUsers(page=1){
         this.loading = true
 
         this.$api
-        .post(this.dynamic_route('/users/fetch'),{filter: this.filter})
+        .post(this.dynamic_route(`/users/fetch?page=${page}`),{filter: this.filter})
         .then(res => {
             this.loading=false;
             if(res.status == 200) {
-                res.data.data.forEach(user => {
+                res.data.data.data.forEach(user => {
                     if(user.mname) {
                         Object.assign(user, { fullname: user.lname + ' '  + user.fname + ' ' + user.mname})
                     } else {
