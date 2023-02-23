@@ -26,7 +26,7 @@ jobs:
     - name: Sync files
       uses: SamKirkland/FTP-Deploy-Action@4.1.0
       with:
-        server: ftp.lifecardcoinvest.com
+        server: ftp.lifecardcompany.com
         username: lifeprqx
         password: YoGVmc756Lbt
         server-dir: /investors.lifecardcompany.com/
