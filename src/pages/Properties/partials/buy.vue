@@ -141,7 +141,7 @@ export default {
     },
     mounted() {
         try {
-        this.squareMeter=JSON.parse(this.squareMeter)
+            this.squareMeter=JSON.parse(this.squareMeter)
 
             
         }finally {

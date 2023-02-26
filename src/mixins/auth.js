@@ -5,10 +5,22 @@ export default {
     },
   methods: {
     dynamic_route(endUrl) { 
+      if(window.location.origin.startsWith('https')) {
         return process.env.VUE_APP_BASE_URL+endUrl
+
+      } else {
+
+        return process.env.VUE_APP_BASE_URL2+endUrl
+      }
       },
       dynamic_auth_route(endUrl) {
-        return process.env.VUE_APP_BASE_AUTH_URL+endUrl
+        if(window.location.origin.startsWith('https')) {
+          return process.env.VUE_APP_BASE_AUTH_URL+endUrl
+  
+        } else {
+  
+          return process.env.VUE_APP_BASE_AUTH_URL2+endUrl
+        }
       },
       logoutUser() {
         this.$toast.error('Login expired, please login again!', {
