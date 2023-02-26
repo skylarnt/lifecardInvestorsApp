@@ -37,6 +37,7 @@
     "pusher-js": "^7.6.0",
     "rickshaw": "1.7.1",
     "sass-loader": "^7.3.1",
+    "sweetalert": "^2.1.2",
     "vue": "^2.6.12",
     "vue-apexcharts": "^1.6.0",
     "vue-chartjs": "^3.5.1",

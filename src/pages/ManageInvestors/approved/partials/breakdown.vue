@@ -37,6 +37,7 @@
                             'right' : (i+1) % 2 < 1
                         }"
                     >
+                        <button class="btn btn-primary float-right ml-2" @click="deleteTransaction(tr)">Delete</button>
                         <button class="btn btn-primary float-right" @click="trans_rec = tr; $bvModal.show('EditBreakdown'); current=p">Edit</button>
                         <p class="date mb-0">{{tr.created_at | moment("from", true) }} ago</p>
                         <h3 class="mb-0">₦{{Number(tr.amount).toLocaleString()}}</h3>
@@ -76,9 +77,9 @@
 import VueElementLoading from 'vue-element-loading'
 import EditBreakdown from '@/pages/ManageInvestors/approved/partials/EditBreakdown';
 import { mapState,mapActions } from 'vuex';
-
+import swal from 'sweetalert';
 export default {
-    props:['my_modal', 'data'],
+    props:['my_modal', 'data', 'swal'],
     components:{
         VueElementLoading,
         EditBreakdown
@@ -124,6 +125,52 @@ export default {
 
             });
         }, 
+        deleteTransaction(data) {
+            swal({
+  title: "Are you sure?",
+  text: "Once deleted, you will not be able to recover this transaction!",
+  icon: "warning",
+  buttons: true,
+  dangerMode: true,
+})
+.then((willDelete) => {
+  if (willDelete) {
+    this.deleteTrans(data.id)
+  } else {
+    
+  }
+});
+        },
+        deleteTrans(id) {
+            this.loading=true;
+            this.$api.delete(this.dynamic_route(`/requests/admin/delete_transaction_breakdown/${id}`)
+            ).then((res) => {
+                this.loading=false;
+
+                if(res.status == 200) {
+        this.fetch()
+
+                this.$toast.success('Payment Deleted', {
+                    position: 'top-center',
+                    timeout: 5000,
+                    closeOnClick: true,
+                    pauseOnFocusLoss: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    draggablePercent: 0.6,
+                    showCloseButtonOnHover: false,
+                    hideProgressBar: true,
+                    closeButton: 'button',
+                    icon: true,
+                    rtl: false,
+                })
+                } else {
+                    if(res.status==422 && res.data.message =="The given data was invalid.") this.error_messg=res.data.errors
+                    this.toast(res)
+                }
+
+            });
+        },
         fetch() {
             this.loading=true;
             this.$api.post(this.dynamic_route('/requests/admin/get_transactions'), {
