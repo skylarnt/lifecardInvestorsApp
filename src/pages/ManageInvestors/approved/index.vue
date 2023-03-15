@@ -636,9 +636,8 @@ export default {
           this.dynamic_route(
             `/requests/admin/all_approved_request?page=${page}`
           ),
-          {
-            filters: this.filters,
-          },
+          this.filters,
+          
           {
             headers: {
               authorization: `Bearer ${this.auth_token}`,
