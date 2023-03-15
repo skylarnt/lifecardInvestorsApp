@@ -22,6 +22,7 @@
                     </div>
                     <div class="col-md-8 mb-2">
                         <div class="alert   shadow-sm" style="background-color: #dbf0ff;">
+                        <button class="btn btn-primary float-right" @click="$bvModal.show('EditActualAmount'); currentRec=data">Edit Actual Amount</button>
                             <h4>Payment Info</h4>
                             Lorem ipsum dolor, sit amet consectetur adipisicing elit. Velit, similique!
                         </div>
@@ -69,6 +70,10 @@
             <EditBreakdown :my_model="$bvModal" :auth_token="auth_token"  @done="fetch()"  :data="trans_rec"  />
         </b-modal>
 
+        <b-modal size="lg"  title="Edit Actual Amount" id="EditActualAmount" hide-footer>
+            <EditActualAmount :my_model="$bvModal" :auth_token="auth_token"  @done="fetch()"  :data="currentRec"  />
+        </b-modal>
+
         </form>
   </div>
 </template>
@@ -76,13 +81,15 @@
 <script>
 import VueElementLoading from 'vue-element-loading'
 import EditBreakdown from '@/pages/ManageInvestors/approved/partials/EditBreakdown';
+import EditActualAmount from '@/pages/ManageInvestors/approved/partials/EditActualAmount';
 import { mapState,mapActions } from 'vuex';
 import swal from 'sweetalert';
 export default {
     props:['my_modal', 'data', 'swal'],
     components:{
         VueElementLoading,
-        EditBreakdown
+        EditBreakdown,
+        EditActualAmount
     },
     computed:{
         ...mapState('auth',['auth_token', 'auth_data']),
@@ -94,6 +101,7 @@ export default {
                 v => !!v || 'This is a required',
             ],
             trans_rec: {},
+            currentRec: {},
             form:{},
             loading:false,
             error_messg:{},

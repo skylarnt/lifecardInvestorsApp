@@ -276,7 +276,7 @@ export default {
         fetchData(page=1) {
             this.loading = true
             this.$api
-            .post(this.dynamic_route(`/requests/get/page=${page}`), {
+            .post(this.dynamic_route(`/requests/get?page=${page}`), {
              filters: this.filters,
             })
             .then(res => {

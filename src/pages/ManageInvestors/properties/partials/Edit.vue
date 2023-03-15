@@ -190,7 +190,7 @@
                             </div>
                             <div class="row mt-0" v-for="(sq, i) in form.square_meters_info" :key="i">
                                 <div class="col-6 mb-0 ">
-                                    <input required  v-model="sq.unit" type="number" placeholder="1000" class="form-control">
+                                    <input required  v-model="sq.unit" type="text" placeholder="1000" class="form-control">
 
                                 </div>
                                 <div class="col-6 mb-0">
