@@ -419,7 +419,7 @@ export default {
     searchData() {
       this.fetchData();
     },
-    fetchData(page = 1) {
+    fetchData() {
       this.loading = true;
       axios
         .post(
