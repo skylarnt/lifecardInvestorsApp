@@ -5,9 +5,9 @@
         <div class="col-md-6 mx-auto">
           <div class="card">
             <div class="card-body mt-md-4 login-form">
-              <!-- <b-link :to="'/'"><div class="text-center mt-10 mb-7">
+              <div class="text-center mt-10 mb-7">
                 <img src="/img/lifecardbg.png" alt="" width="120"> 
-              </div></b-link> -->
+              </div>
               <v-form v-model="valid" @submit.prevent="login">
                 <VueElementLoading
                       :active="loading"

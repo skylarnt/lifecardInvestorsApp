@@ -86,6 +86,24 @@
             index="completed-requests"
             isHeader
         />
+        <NavLink
+            :activeItem="activeItem"
+            header="Sell Properties"
+            link="/app/sell-property"
+            iconName="flaticon-property1"
+            v-if="auth_data && auth_data.user_type == 'user'"
+            index="sell-property"
+            isHeader
+        />
+        <NavLink
+            :activeItem="activeItem"
+            header="My Properties"
+            link="/app/my-property"
+            iconName="flaticon-property1"
+            v-if="auth_data && auth_data.user_type == 'marketer'"
+            index="sell-property"
+            isHeader
+        />
         
          <!-- <NavLink
           v-if="authType.name == 'user'"

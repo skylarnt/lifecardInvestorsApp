@@ -1,14 +1,14 @@
 <template>
   <v-app>
     <div class="auth-page">
+
       <div class="login-wrapper">
         <div class="col-md-6 mx-auto">
           <div class="card">
-            <div class="text-center mt-10 mb-7">
-              <img src="/img/lifecardbg.png" alt="" width="120"> 
-            </div>
             <div class="card-body  register-form">
-            
+              <div class="text-center mt-10 mb-7">
+                <img src="/img/lifecardbg.png" alt="" width="120"> 
+              </div>
               <v-form
                 ref="form"
                 lazy-validation
@@ -241,7 +241,7 @@ export default {
         });
       }
       this.loading=true;
-      axios.post(this.dynamic_auth_route('/register'), this.form)
+      axios.post(this.dynamic_auth_route('/register/marketer'), this.form)
       .then(res => {
         this.loading=false;
         this.$toast.success('Registration successful!', {
@@ -288,23 +288,7 @@ export default {
           })
         } 
         else if(err.response.status == 405)  {
-            if (err.response.data.phone) {
-              this.$toast.error(err.response.data.phone[0], {
-                position: 'top-center',
-                timeout: 5000,
-                closeOnClick: true,
-                pauseOnFocusLoss: true,
-                pauseOnHover: true,
-                draggable: true,
-                draggablePercent: 0.6,
-                showCloseButtonOnHover: false,
-                hideProgressBar: true,
-                closeButton: 'button',
-                icon: true,
-                rtl: false,
-              })
-            }
-            return this.$toast.error(err.response.data.email[0] || err.response.data.phone[0], {
+            return this.$toast.error(err.response.data.email[0], {
               position: 'top-center',
               timeout: 5000,
               closeOnClick: true,

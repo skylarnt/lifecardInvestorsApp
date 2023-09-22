@@ -7,6 +7,7 @@ import ForgotPassword from '@/pages/Auth/ForgotPassword';
 import ResetPassword from '@/pages/Auth/ResetPassword';
 import Profile from '@/pages/Auth/Profile';
 import Register from '@/pages/Auth/Register';
+import RegisterMarketer from '@/pages/Auth/RegisterMarketer';
 
 
 // Main
@@ -15,6 +16,8 @@ import ReceiptPage from '@/pages/Dashboard/Receipt';
 import manageRequest from '@/pages/ManageRequests/Index';
 import ApprovedRequests from '@/pages/ApprovedRequests/Index';
 import CompletedRequest from '@/pages/CompletedRequest/Index';
+import SellProperty from '@/pages/SellProperty/Index';
+import MyProperty from '@/pages/MyProperty/Index';
 import Properties from '@/pages/Properties/Index';
 import Users from '@/pages/ManageUsers/Index';
 
@@ -39,6 +42,11 @@ export default new Router({
       path: '/register',
       name: 'Register',
       component: Register,
+    },
+    {
+      path: '/marketer/register',
+      name: 'RegisterMarketer',
+      component: RegisterMarketer,
     },
     {
       path: '/forgot-password',
@@ -105,6 +113,22 @@ export default new Router({
           path: 'completed-requests',
           name: 'CompletedRequests',
           component: CompletedRequest,
+          meta: {
+            adminOnly:false
+          }
+        },
+        {
+          path: 'sell-property',
+          name: 'SellProperty',
+          component: SellProperty,
+          meta: {
+            adminOnly:false
+          }
+        },
+        {
+          path: 'my-property',
+          name: 'MyProperty',
+          component: MyProperty,
           meta: {
             adminOnly:false
           }

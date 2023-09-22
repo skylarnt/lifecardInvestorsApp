@@ -11,6 +11,7 @@
     />
     <div>
       <AdminDashboard v-if="auth_data.user_type== 'admin'" />
+      <MarketerDashboard v-if="auth_data.user_type== 'marketer'" />
       <ClientDashboard v-else :analytics="analytics"    @statusChecked="reQueryTrasaction" :key="CompKey"/>
     </div>
     
@@ -22,6 +23,7 @@ import Widget from '@/components/Widget/Widget';
 import BigStat from './components/BigStat/BigStat';
 import AdminDashboard from './components/AdminDashboard';
 import ClientDashboard from './components/ClientDashboard';
+import MarketerDashboard from './components/MarketerDashboard';
 import mock from './mock';
 import Bar from './Bar'
 import VueElementLoading from 'vue-element-loading'
@@ -37,7 +39,7 @@ import {mapActions,mapState } from "vuex";
 export default {
   name: 'Dashboard',
   components: {
-    Bar, Widget, BigStat, highcharts: Chart,AdminDashboard,ClientDashboard,
+    Bar, Widget, BigStat, highcharts: Chart,AdminDashboard,ClientDashboard,MarketerDashboard,
     VueElementLoading, 
   },
   
