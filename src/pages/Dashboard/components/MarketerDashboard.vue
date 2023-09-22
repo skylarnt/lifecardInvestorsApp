@@ -8,8 +8,8 @@
                       <div class="small-box">
                           <div class="d-flex inner">
                           <div>
-                              <h3>{{analytics.amount_spent ? Number(analytics.amount_spent).toLocaleString() : 0}}</h3>
-                              <p>Amount Earned</p>
+                              <h3>{{analytics.all_property ? Number(analytics.all_property).toLocaleString() : 0}}</h3>
+                              <p>Property Assigned to me</p>
                           </div>
                           <span class="b-avatar badge-light-primary rounded-circle ml-auto" style="width: 58px; height: 58px;">
                               <span class="b-avatar-custom"><svg xmlns="http://www.w3.org/2000/svg" width="34px" height="34px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trending-up"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></svg></span><!---->
