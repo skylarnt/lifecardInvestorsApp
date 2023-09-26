@@ -377,7 +377,7 @@ export default {
       this.$api
         .post(
           this.dynamic_route(
-            `/properties/toggle-status/${this.current.property_id}/${this.current.marketer_id}`
+            `/properties/toggle-status/${this.current.approved_request_id}/${this.current.marketer_id}`
           ),
           { status: status }
         )

@@ -223,7 +223,7 @@ export default {
         },
         toggle_status(status) {
             this.loading = true
-            this.$api.post(this.dynamic_route(`/properties/toggle-status/${this.current.property_id}/${this.current.marketer_id}`), { status: status })
+            this.$api.post(this.dynamic_route(`/properties/toggle-status/${this.current.approved_request_id}/${this.current.marketer_id}`), { status: status })
                 .then((res) => {
                     this.$toast.success(res.data.message, {
                         position: 'top-right',
