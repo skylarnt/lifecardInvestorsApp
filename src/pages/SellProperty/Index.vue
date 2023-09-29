@@ -187,9 +187,6 @@
 import Widget from "@/components/Widget/Widget";
 import AttachMarketer from "@/pages/SellProperty/partials/attach";
 import ManageMarketers from "@/pages/SellProperty/partials/manage";
-import Convo from "@/pages/ManageRequests/partials/convo";
-
-import axios from "axios";
 import VueElementLoading from "vue-element-loading";
 import laravelVuePagination from "laravel-vue-pagination";
 import { mapState, mapActions } from "vuex";
@@ -210,7 +207,6 @@ export default {
       openConfirm: false,
       openConfirm2: false,
       dialog: false,
-      current: {},
       completedRequests: [],
       filters: {},
       loading: false,

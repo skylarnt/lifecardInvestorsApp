@@ -335,13 +335,13 @@ export default {
       this.$api
         .post(
           this.dynamic_route(
-            `/properties/delete-marketers/${this.property.investor_property_id}`
+            `/properties/delete-marketers/${this.property.id}`
           ),
           payload
         )
         .then((res) => {
           this.loading = false;
-          this.closeMe();
+          this.getPropertyMarketers()
           this.$toast.success(res.data.message, {
             position: "top-right",
             timeout: 5000,

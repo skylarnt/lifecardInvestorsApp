@@ -126,7 +126,7 @@
                             </template>
 
                             <v-list>
-                              <v-list-item v-if="p.status == 'pending'">
+                              <v-list-item v-if="p.status == 'sold'">
                                 <v-list-item-title
                                   style="cursor: pointer"
                                   @click="
@@ -138,34 +138,9 @@
                                   <i
                                     class="mdi mdi-square-edit-outline mr-1"
                                   ></i>
-                                  Sold
+                                  Completed
                                 </v-list-item-title>
                               </v-list-item>
-                              <v-list-item v-if="p.status == 'sold'">
-                                <v-list-item-title
-                                  style="cursor: pointer"
-                                  @click="
-                                    openConfirm = true;
-                                    dynamic_status = 'pending';
-                                    setCurrent(p);
-                                  "
-                                >
-                                  <i
-                                    class="mdi mdi-square-edit-outline mr-1"
-                                  ></i>
-                                  Pending
-                                </v-list-item-title>
-                              </v-list-item>
-                              <!-- <v-list-item v-if="p.status != 'completed'">
-                                                                <v-list-item-title style="cursor: pointer" @click="
-                                                                    openConfirm = true;
-                                                                dynamic_status = 'completed';
-                                                                setCurrent(p);
-                                                                ">
-                                                                    <i class="mdi mdi-square-edit-outline mr-1"></i>
-                                                                    Completed
-                                                                </v-list-item-title>
-                                                            </v-list-item> -->
                             </v-list>
                           </v-menu>
                         </td>
