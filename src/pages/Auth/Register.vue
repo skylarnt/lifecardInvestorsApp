@@ -2,13 +2,12 @@
   <v-app>
     <div class="auth-page">
       <div class="login-wrapper">
-        <div class="col-md-6 mx-auto">
+        <div class="col-md-10 mx-auto">
           <div class="card">
             <div class="text-center mt-10 mb-7">
               <img src="/img/lifecardbg.png" alt="" width="120"> 
             </div>
             <div class="card-body  register-form">
-            
               <v-form
                 ref="form"
                 lazy-validation
@@ -22,21 +21,27 @@
                   text="Loading.."
                   duration="0.6"
               />
-                <v-text-field
+              <div class="row">
+                <div class="col-6">
+                  <v-text-field
                   v-model="form.fname"
                   :rules="fnameRules"
                   :counter="255"
                   label="First name"
                   required
                 ></v-text-field>
-                <v-text-field
+                </div>
+                <div class="col 6">
+                  <v-text-field
                   v-model="form.lname"
                   :counter="255"
                   :rules="lnameRules"
                   label="Last name"
                   required
                 ></v-text-field>
-                <v-text-field
+                </div>
+                <div class="col-6">
+                  <v-text-field
                   v-model="form.email"
                   :counter="255"
                   :rules="emailRules"
@@ -44,13 +49,9 @@
                   type="email"
                   required
                 ></v-text-field>
-                <v-autocomplete
-                  v-model="form.country"
-                  :items="countries"
-                  label="Country*"
-                  :rules="countryRule"
-                ></v-autocomplete>
-                 <v-text-field
+                </div>
+                <div class="col-6">
+                  <v-text-field
                   v-model="form.phone"
                   :counter="255"
                   :rules="phoneRules"
@@ -58,7 +59,10 @@
                   type="number"
                   required
                 ></v-text-field>
-                <v-text-field
+                </div>
+                
+                <div class="col-6">
+                  <v-text-field
                   v-model="form.password"
                   :rules="passwordRules"
                   label="Password"
@@ -74,7 +78,7 @@
                     mdi-eye-outline
                   </v-icon>
                 </v-text-field>
-                <v-text-field
+                  <v-text-field
                   v-model="form.password"
                   :rules="passwordRules"
                   label="Password"
@@ -90,8 +94,9 @@
                     mdi-eye-off-outline
                   </v-icon>
                 </v-text-field>
-
-                <v-text-field
+                </div>
+                <div class="col-6">
+                  <v-text-field
                   v-model="form.password_confirmation"
                   :rules="passwordRules"
                   label="Confirm Password"
@@ -123,6 +128,17 @@
                     mdi-eye-off-outline
                   </v-icon>
                 </v-text-field>
+                </div>
+                <div class="col-12">
+                  <v-autocomplete
+                  v-model="form.country"
+                  :items="countries"
+                  label="Country*"
+                  :rules="countryRule"
+                ></v-autocomplete>
+                </div>
+              </div>
+              
                 <b-button block :disabled="!valid" type="submit" class="auth-btn mt-2 btn-lg custom-btn">Create Account</b-button>
               </v-form>
               <p class="widget-auth-info text-center py-2">

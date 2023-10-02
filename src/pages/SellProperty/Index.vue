@@ -114,7 +114,7 @@
       hide-footer
       size="xl"
     >
-      <AttachMarketer :my_model="$bvModal" :property="current" />
+      <AttachMarketer :my_model="$bvModal" :property="current" @attached="fetchData()"/>
     </b-modal>
     <b-modal title="Manage Marketers" id="manage" hide-footer size="xl">
       <ManageMarketers :my_model="$bvModal" :property="current" />

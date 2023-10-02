@@ -306,6 +306,7 @@ export default {
           this.addmarketers
         )
         .then((res) => {
+          this.$emit('attached')
           this.loading = false;
           this.closeMe();
           this.$toast.success(res.data.message, {
