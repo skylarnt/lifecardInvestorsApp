@@ -118,7 +118,9 @@
                 </v-card-title>
 
                 <v-card-text>
-                    Are you sure you want to perform this operation ?
+                    <p>
+                        Are you sure you want to perform this operation ?
+                    </p>
                 </v-card-text>
 
                 <v-card-actions>
@@ -128,35 +130,13 @@
                         No, exit
                     </v-btn>
 
-                    <v-btn color="primary darken-1" text @click="toggle_status(dynamic_status); openConfirm = false">
+                    <v-btn color="primary darken-1"  text
+                        @click="toggle_status(dynamic_status); openConfirm = false">
                         Yes, continue
                     </v-btn>
                 </v-card-actions>
             </v-card>
         </v-dialog>
-        <!-- <v-dialog v-model="openConfirm2" max-width="390">
-            <v-card>
-                <v-card-title class="text-h5">
-                    Delete property
-                </v-card-title>
-
-                <v-card-text>
-                    Are you sure you want to perform this operation ?
-                </v-card-text>
-
-                <v-card-actions>
-                    <v-spacer></v-spacer>
-
-                    <v-btn color=" darken-1" text @click="openConfirm2 = false">
-                        No, exit
-                    </v-btn>
-
-                    <v-btn color="primary darken-1" text @click="deleteProperty(del_id); openConfirm2 = false">
-                        Yes, continue
-                    </v-btn>
-                </v-card-actions>
-            </v-card>
-        </v-dialog> -->
         <!-- V Dialog End -->
     </v-app>
 </template>
@@ -173,6 +153,7 @@ export default {
     components: { Widget, VueElementLoading, laravelVuePagination, Pagination: laravelVuePagination },
     data() {
         return {
+           
             status_id: 0,
             del_id: 0,
             dynamic_status: '',
@@ -187,7 +168,6 @@ export default {
             loading: false,
             isDialogVisible: false,
             closeOnContentClick: true,
-            current: {}
         }
     },
     computed: {
@@ -203,7 +183,7 @@ export default {
         fetchData(page = 1) {
             this.loading = true
             this.$api
-                .post(this.dynamic_route(`/properties/get-marketers-property?page=${page}`),{filter:this.filter})
+                .post(this.dynamic_route(`/properties/get-marketers-property?page=${page}`), { filter: this.filter })
                 .then(res => {
                     if (res.status == 200) {
                         this.property = res.data.data
@@ -264,8 +244,6 @@ export default {
     },
 }
 </script>
-<style>
-.modal-body {
+<style>.modal-body {
     background: white !important;
-}
-</style>
+}</style>
